@@ -10,7 +10,7 @@ SECRET_KEY = os.environ.get(
     'django-insecure-!@l50ef+#dqgx)f+n+(wp1cx^w24_v(t&6)niqeuxmktfb8p*^'
 )
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('true', '1', 'yes')
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '*').split(',') if h.strip()]
 
 # ─── APPS ────────────────────────────────────────────────────
 INSTALLED_APPS = [
@@ -138,7 +138,7 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
+    CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
 else:
     X_FRAME_OPTIONS = 'SAMEORIGIN'
 
