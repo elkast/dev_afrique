@@ -25,10 +25,6 @@
                         <div class="profil-stat-label">Projets</div>
                     </div>
                     <div class="profil-stat">
-                        <div class="profil-stat-nombre">{{ certificats.count }}</div>
-                        <div class="profil-stat-label">Certificats</div>
-                    </div>
-                    <div class="profil-stat">
                         <div class="profil-stat-nombre">{{ progressions.count }}</div>
                         <div class="profil-stat-label">Leçons terminées</div>
                     </div>
@@ -36,24 +32,6 @@
             </div>
         </div>
 
-        <!-- Certificats -->
-        {% if certificats %}
-        <div class="carte mb-xl">
-            <h3>🏆 Certificats obtenus</h3>
-            <div style="margin-top: var(--espace-md);">
-                {% for cert in certificats %}
-                <div style="display: flex; align-items: center; gap: var(--espace-md); padding: var(--espace-sm) 0; border-bottom: 1px solid var(--bordure-clair);">
-                    <span style="font-size: 1.5rem;">{{ cert.parcours.icone }}</span>
-                    <div style="flex: 1;">
-                        <strong>{{ cert.parcours.titre }}</strong>
-                        <span class="texte-petit texte-secondaire"> — Obtenu le {{ cert.date_obtention|date:"d F Y" }}</span>
-                    </div>
-                    <span class="tag tag-or">Certifié</span>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
 
         <!-- Projets -->
         {% if projets %}

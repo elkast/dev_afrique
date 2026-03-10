@@ -2072,6 +2072,24 @@ select.champ-formulaire {
     .admin-contenu { padding: var(--espace-lg); }
     .profil-header { flex-direction: column; text-align: center; }
     .profil-stats { justify-content: center; }
+    
+    /* Dashboard responsive */
+    .dashboard-header { flex-direction: column; text-align: center; }
+    .dashboard-actions { justify-content: center; }
+    .timeline { padding-left: var(--espace-md); }
+    
+    /* Creator page responsive */
+    .creator-avatar { width: 120px; height: 120px; font-size: 2.5rem; }
+    
+    /* Cards on mobile */
+    .carte { padding: var(--espace-md); }
+    
+    /* Stack elements */
+    .stack-mobile { flex-direction: column !important; }
+    
+    /* Better touch targets */
+    .btn { min-height: 44px; }
+    a { min-height: 44px; display: inline-flex; align-items: center; }
 
     /* Mobile menu */
     .navbar-liens.ouvert {

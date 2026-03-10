@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block titre %}Tableau de bord — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section" style="padding-top: var(--espace-xl);">
+    <div class="conteneur">
+        
+        <!-- Header Dashboard -->
+        <div class="carte mb-xl" style="background: linear-gradient(135deg, var(--couleur-primaire), var(--couleur-primaire-fonce)); color: white;">
+            <div style="display: flex; align-items: center; gap: var(--espace-lg); flex-wrap: wrap;">
+                <img src="{{ user.get_avatar_display }}" alt="{{ user.username }}" class="avatar avatar-xl" style="border: 3px solid rgba(255,255,255,0.3);">
+                <div>
+                    <h1 style="font-size: var(--taille-2xl); margin-bottom: var(--espace-xs);">Bonjour, {{ user.first_name|default:user.username }} ! 👋</h1>
+                    <p style="opacity: 0.9; margin-bottom: var(--espace-sm);">
+                        {{ user.get_role_display }} · {{ user.points_xp }} XP · {{ progression_total }} leçons terminées
+                    </p>
+                    <div style="display: flex; gap: var(--espace-sm); flex-wrap: wrap;">
+                        <a href="{% url 'profil' %}" class="btn btn-sm" style="background: rgba(255,255,255,0.2); color: white; border: none;">Mon profil</a>
+                        <a href="{% url 'liste_cours' %}" class="btn btn-sm btn-accent">Continuer à apprendre</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grille grille-2" style="gap: var(--espace-xl);">
+            
+            <!-- Colonne Gauche -->
+            <div>
+                <!-- Mes Cours en Cours -->
+                {% if cours_suivis %}
+                <div class="carte mb-xl">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--espace-md);">
+                        <h3>📚 Mes cours en cours</h3>
+                        <a href="{% url 'liste_cours' %}" class="btn btn-sm btn-outline">Voir tous</a>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: var(--espace-md);">
+                        {% for cours in cours_suivis %}
+                        <a href="{% url 'detail_cours' slug=cours.slug %}" class="carte" style="text-decoration: none; display: flex; align-items: center; gap: var(--espace-md);">
+                            <div class="carte-icone-inline" style="flex-shrink: 0;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-weight: 500; margin-bottom: 2px;">{{ cours.titre }}</div>
+                                <div class="texte-petit texte-secondaire">{{ cours.parcours.titre }}</div>
+                            </div>
+                            <span class="tag tag-or">Continuer</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Suggestions de Cours -->
+                {% if cours_suggestions %}
+                <div class="carte mb-xl">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--espace-md);">
+                        <h3>✨ Cours recommandés</h3>
+                        <a href="{% url 'liste_cours' %}" class="btn btn-sm btn-outline">Explorer</a>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: var(--espace-md);">
+                        {% for cours in cours_suggestions %}
+                        <a href="{% url 'detail_cours' slug=cours.slug %}" class="carte" style="text-decoration: none; display: flex; align-items: center; gap: var(--espace-md);">
+                            <div class="carte-icone-inline" style="flex-shrink: 0; background: var(--couleur-secondaire-clair); color: var(--couleur-secondaire);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-weight: 500; margin-bottom: 2px;">{{ cours.titre }}</div>
+                                <div class="texte-petit texte-secondaire">{{ cours.parcours.titre }}</div>
+                            </div>
+                            <span class="cours-niveau niveau-{{ cours.niveau }}">{{ cours.get_niveau_display }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Parcours Disponibles -->
+                <div class="carte">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--espace-md);">
+                        <h3>🎯 Parcours disponibles</h3>
+                        <a href="{% url 'liste_parcours' %}" class="btn btn-sm btn-outline">Tous les parcours</a>
+                    </div>
+                    <div class="grille grille-2" style="gap: var(--espace-md);">
+                        {% for parcours in parcours_liste %}
+                        <a href="{% url 'detail_parcours' slug=parcours.slug %}" class="carte" style="text-decoration: none;">
+                            <div style="font-size: 1.5rem; margin-bottom: var(--espace-sm);">{{ parcours.icone|default:"🚀" }}</div>
+                            <div style="font-weight: 500; margin-bottom: var(--espace-xs);">{{ parcours.titre }}</div>
+                            <div class="texte-petit texte-secondaire">{{ parcours.nombre_cours }} cours</div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne Droite -->
+            <div>
+                <!-- Glossaire -->
+                {% if termes_glossaire %}
+                <div class="carte mb-xl">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--espace-md);">
+                        <h3>📖 Glossaire</h3>
+                        <a href="{% url 'liste_glossaire' %}" class="btn btn-sm btn-outline">Voir tout</a>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: var(--espace-sm);">
+                        {% for terme in termes_glossaire %}
+                        <a href="{% url 'detail_glossaire' slug=terme.slug %}" class="carte" style="text-decoration: none; padding: var(--espace-sm);">
+                            <div style="font-weight: 500; color: var(--couleur-primaire);">{{ terme.terme }}</div>
+                            <div class="texte-petit texte-secondaire" style="margin-top: 2px;">{{ terme.definition|truncatewords:8 }}</div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Projets Communautaires -->
+                {% if projets_recents %}
+                <div class="carte mb-xl">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--espace-md);">
+                        <h3>🚀 Projets récents</h3>
+                        <a href="{% url 'liste_projets' %}" class="btn btn-sm btn-outline">Explorer</a>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: var(--espace-md);">
+                        {% for projet in projets_recents %}
+                        <a href="{% url 'detail_projet' slug=projet.slug %}" class="carte" style="text-decoration: none;">
+                            <div style="display: flex; align-items: center; gap: var(--espace-sm); margin-bottom: var(--espace-xs);">
+                                <img src="{{ projet.auteur.get_avatar_display }}" alt="{{ projet.auteur.username }}" class="avatar" style="width: 24px; height: 24px;">
+                                <span class="texte-petit">{{ projet.auteur.username }}</span>
+                            </div>
+                            <div style="font-weight: 500; margin-bottom: 2px;">{{ projet.titre }}</div>
+                            <div class="texte-petit texte-secondaire">{{ projet.technologies|truncatewords:4 }}</div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Discussions Forum -->
+                {% if discussions_recentes %}
+                <div class="carte">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--espace-md);">
+                        <h3>💬 Discussions récentes</h3>
+                        <a href="{% url 'liste_sujets' %}" class="btn btn-sm btn-outline">Forum</a>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: var(--espace-sm);">
+                        {% for sujet in discussions_recentes %}
+                        <a href="{% url 'detail_sujet' slug=sujet.slug %}" class="carte" style="text-decoration: none; padding: var(--espace-sm);">
+                            <div style="font-weight: 500;">{{ sujet.titre|truncatewords:6 }}</div>
+                            <div style="display: flex; align-items: center; gap: var(--espace-sm); margin-top: 4px;">
+                                <span class="texte-petit texte-secondaire">{{ sujet.categorie.nom }}</span>
+                                <span class="tag tag-sm {% if sujet.est_resolu %}tag-succes{% else %}tag-or{% endif %}">
+                                    {% if sujet.est_resolu %}Résolu{% else %}Ouvert{% endif %}
+                                </span>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <!-- Actions Rapides -->
+        <div class="carte mt-xl">
+            <h3 class="mb-md">⚡ Actions rapides</h3>
+            <div class="grille grille-4" style="gap: var(--espace-md);">
+                <a href="{% url 'liste_cours' %}" class="btn btn-outline" style="text-align: center; flex-direction: column; gap: var(--espace-sm); padding: var(--espace-md);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    <span>Explorer les cours</span>
+                </a>
+                <a href="{% url 'soumettre_projet' %}" class="btn btn-outline" style="text-align: center; flex-direction: column; gap: var(--espace-sm); padding: var(--espace-md);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                    <span>Soumettre un projet</span>
+                </a>
+                <a href="{% url 'liste_glossaire' %}" class="btn btn-outline" style="text-align: center; flex-direction: column; gap: var(--espace-sm); padding: var(--espace-md);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    <span>Consulter le glossaire</span>
+                </a>
+                <a href="{% url 'creer_sujet' %}" class="btn btn-outline" style="text-align: center; flex-direction: column; gap: var(--espace-sm); padding: var(--espace-md);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    <span>Poser une question</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

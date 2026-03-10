@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block titre %}Le Créateur — Sossou Elkast | DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section" style="padding-top: var(--espace-3xl);">
+    <div class="conteneur" style="max-width: 900px;">
+        
+        <!-- Header avec photo -->
+        <div class="carte" style="text-align: center; margin-bottom: var(--espace-xl);">
+            <div style="width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(135deg, var(--couleur-primaire), var(--couleur-accent)); margin: 0 auto var(--espace-lg); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white; font-weight: bold;">
+                SE
+            </div>
+            <h1 style="font-size: var(--taille-3xl); margin-bottom: var(--espace-sm);">Sossou Elkast</h1>
+            <p style="font-size: var(--taille-lg); opacity: 0.8; margin-bottom: var(--espace-md);">Fondateur & Développeur Principal de DevAfrique</p>
+            <div style="display: flex; justify-content: center; gap: var(--espace-md); flex-wrap: wrap;">
+                <a href="https://github.com/elkast" target="_blank" class="btn btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.53 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    GitHub
+                </a>
+                <a href="mailto:elkast@devafrique.com" class="btn btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    Contact
+                </a>
+            </div>
+        </div>
+
+        <!-- Biographie -->
+        <div class="carte mb-xl">
+            <h2 style="font-size: var(--taille-xl); margin-bottom: var(--espace-md);">📖 Biographie</h2>
+            <div style="line-height: 1.8; opacity: 0.9;">
+                <p style="margin-bottom: var(--espace-md);">
+                    <strong>Sossou Elkast</strong> est un développeur passionné et entrepreneur technologique originaire du Togo. 
+                    Avec plusieurs années d'expérience dans le développement web et mobile, il a décidé de créer DevAfrique 
+                    pour répondre à un besoin crucial : rendre l'éducation technologique accessible à tous les Africains.
+                </p>
+                <p style="margin-bottom: var(--espace-md);">
+                    Convaincu que le continent africain possède un potentiel énorme en matière de talents tech, 
+                    Elkast a conçu cette plateforme pour former la prochaine génération de développeurs africains 
+                    et les accompagner dans leur montée en compétences.
+                </p>
+                <p>
+                    Son ambition est de voir émerger des milliers de développeurs africains capables de créer 
+                    des solutions innovantes pour résoudre les problèmes locaux et internationaux.
+                </p>
+            </div>
+        </div>
+
+        <!-- Parcours -->
+        <div class="carte mb-xl">
+            <h2 style="font-size: var(--taille-xl); margin-bottom: var(--espace-md);">🚀 Parcours</h2>
+            <div class="timeline" style="position: relative; padding-left: var(--espace-lg);">
+                <div class="timeline-item" style="margin-bottom: var(--espace-md); padding-left: var(--espace-md); border-left: 3px solid var(--couleur-primaire);">
+                    <div style="font-weight: 600; color: var(--couleur-primaire);">2024 - Présent</div>
+                    <div style="font-weight: 500;">Fondateur de DevAfrique</div>
+                    <p style="opacity: 0.8; margin-top: var(--espace-xs);">Création et développement de la plateforme éducative pour l'Afrique.</p>
+                </div>
+                <div class="timeline-item" style="margin-bottom: var(--espace-md); padding-left: var(--espace-md); border-left: 3px solid var(--couleur-secondaire);">
+                    <div style="font-weight: 600; color: var(--couleur-secondaire);">2022 - 2024</div>
+                    <div style="font-weight: 500;">Développeur Full-Stack Senior</div>
+                    <p style="opacity: 0.8; margin-top: var(--espace-xs);">Développement de solutions web et mobiles pour divers clients.</p>
+                </div>
+                <div class="timeline-item" style="padding-left: var(--espace-md); border-left: 3px solid var(--couleur-accent);">
+                    <div style="font-weight: 600; color: var(--couleur-accent);">2020 - 2022</div>
+                    <div style="font-weight: 500;">Développeur Web & Formateur</div>
+                    <p style="opacity: 0.8; margin-top: var(--espace-xs);">Formation de jeunes développeurs et création de projets open-source.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compétences -->
+        <div class="carte mb-xl">
+            <h2 style="font-size: var(--taille-xl); margin-bottom: var(--espace-md);">💡 Compétences</h2>
+            <div class="grille grille-2" style="gap: var(--espace-md);">
+                <div>
+                    <h4 style="margin-bottom: var(--espace-sm);">Développement Web</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--espace-xs);">
+                        <span class="tag tag-primaire">Django</span>
+                        <span class="tag tag-primaire">React</span>
+                        <span class="tag tag-primaire">Tailwind CSS</span>
+                        <span class="tag tag-primaire">PostgreSQL</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: var(--espace-sm);">Développement Mobile</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--espace-xs);">
+                        <span class="tag tag-secondaire">React Native</span>
+                        <span class="tag tag-secondaire">Flutter</span>
+                        <span class="tag tag-secondaire">iOS/Android</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: var(--espace-sm);">DevOps & Cloud</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--espace-xs);">
+                        <span class="tag tag-accent">Docker</span>
+                        <span class="tag tag-accent">AWS</span>
+                        <span class="tag tag-accent">Render</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: var(--espace-sm);">Formation & Mentorat</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--espace-xs);">
+                        <span class="tag tag-succes">Pédagogie</span>
+                        <span class="tag tag-succes">Mentorat</span>
+                        <span class="tag tag-succes">Community</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mission -->
+        <div class="carte" style="background: linear-gradient(135deg, var(--couleur-primaire), var(--couleur-primaire-fonce)); color: white;">
+            <h2 style="font-size: var(--taille-xl); margin-bottom: var(--espace-md);">🎯 Mission</h2>
+            <p style="font-size: var(--taille-lg); line-height: 1.8; opacity: 0.95;">
+                "Mon objectif est de démocratiser l'accès à l'éducation technologique en Afrique. 
+                Chaque jeune africain mérite d'avoir les compétences pour bâtir l'avenir numérique 
+                du continent. DevAfrique est ma contribution à cette vision."
+            </p>
+            <div style="margin-top: var(--espace-lg); text-align: right; opacity: 0.9;">
+                — Sossou Elkast
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
