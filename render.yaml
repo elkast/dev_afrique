@@ -3,7 +3,7 @@ services:
     name: devafrique
     runtime: python
     plan: free
-    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate && python manage.py init_render"
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate && python manage.py init_render && python manage.py diagnostic_complet_render --fix"
     startCommand: "gunicorn siteweb.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
       - key: DJANGO_SECRET_KEY

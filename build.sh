@@ -21,6 +21,10 @@ echo "==> Initializing all data..."
 python manage.py init_render
 
 echo ""
+echo "==> Running full diagnostic..."
+python manage.py diagnostic_complet_render --fix
+
+echo ""
 echo "=========================================="
 echo "BUILD COMPLETE"
 echo "=========================================="
