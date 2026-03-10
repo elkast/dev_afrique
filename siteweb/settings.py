@@ -11,6 +11,9 @@ SECRET_KEY = os.environ.get(
 )
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('true', '1', 'yes')
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '*').split(',') if h.strip()]
+# S'assurer que l'hôte Render est toujours inclus
+if 'dev-afrique.onrender.com' not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append('dev-afrique.onrender.com')
 
 # ─── APPS ────────────────────────────────────────────────────
 INSTALLED_APPS = [
