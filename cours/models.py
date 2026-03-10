@@ -131,7 +131,7 @@ class Lecon(models.Model):
 
 
 class ProgressionUtilisateur(models.Model):
-    utilisateur = models.ForeignKey('utilisateurs.Utilisateur', on_delete=models.CASCADE)
+    utilisateur = models.ForeignKey('utilisateurs.Utilisateur', on_delete=models.CASCADE, related_name='progressions')
     lecon = models.ForeignKey(Lecon, on_delete=models.CASCADE)
     terminee = models.BooleanField(default=False)
     date_completion = models.DateTimeField(null=True, blank=True)

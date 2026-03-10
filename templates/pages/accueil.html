@@ -60,6 +60,46 @@
     </div>
 </section>
 
+<!-- Nos Produits / Services -->
+<section class="section section-alternee">
+    <div class="conteneur">
+        <div class="section-titre reveal">
+            <h2>Ce que nous offrons</h2>
+            <p>Des outils complets pour votre apprentissage et votre évolution professionnelle.</p>
+        </div>
+        <div class="grille grille-4 reveal" style="gap: var(--espace-lg);">
+            <!-- Parcours -->
+            <a href="{% url 'liste_parcours' %}" class="carte" style="text-decoration: none; text-align: center; padding: var(--espace-xl);">
+                <div style="font-size: 3rem; margin-bottom: var(--espace-md);">🎯</div>
+                <h3 style="font-size: var(--taille-lg); margin-bottom: var(--espace-sm);">Parcours Guidés</h3>
+                <p class="texte-secondaire texte-petit">6 parcours complets du débutant à l'expert. Web, Mobile, Data, DevOps.</p>
+                <span class="tag" style="margin-top: var(--espace-md);">Explorer</span>
+            </a>
+            <!-- Cours -->
+            <a href="{% url 'liste_cours' %}" class="carte" style="text-decoration: none; text-align: center; padding: var(--espace-xl);">
+                <div style="font-size: 3rem; margin-bottom: var(--espace-md);">📚</div>
+                <h3 style="font-size: var(--taille-lg); margin-bottom: var(--espace-sm);">Cours Gratuits</h3>
+                <p class="texte-secondaire texte-petit">Plus de 25 cours avec vidéos, code source et exercices pratiques.</p>
+                <span class="tag" style="margin-top: var(--espace-md);">Commencer</span>
+            </a>
+            <!-- Projets -->
+            <a href="{% url 'liste_projets' %}" class="carte" style="text-decoration: none; text-align: center; padding: var(--espace-xl);">
+                <div style="font-size: 3rem; margin-bottom: var(--espace-md);">🚀</div>
+                <h3 style="font-size: var(--taille-lg); margin-bottom: var(--espace-sm);">Projets Concrets</h3>
+                <p class="texte-secondaire texte-petit">Portfolio communautaire avec projets réels et retours d'expérience.</p>
+                <span class="tag" style="margin-top: var(--espace-md);">Voir</span>
+            </a>
+            <!-- Forum -->
+            <a href="{% url 'forum' %}" class="carte" style="text-decoration: none; text-align: center; padding: var(--espace-xl);">
+                <div style="font-size: 3rem; margin-bottom: var(--espace-md);">💬</div>
+                <h3 style="font-size: var(--taille-lg); margin-bottom: var(--espace-sm);">Forum d'Entraide</h3>
+                <p class="texte-secondaire texte-petit">Communauté africaine active. Posez vos questions, partagez vos solutions.</p>
+                <span class="tag" style="margin-top: var(--espace-md);">Rejoindre</span>
+            </a>
+        </div>
+    </div>
+</section>
+
 <!-- Stats -->
 <section class="stats-bande">
     <div class="conteneur">
