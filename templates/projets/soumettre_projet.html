@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block titre %}Soumettre un projet — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur" style="max-width: 600px;">
+        <h1>Soumettre un projet</h1>
+        <p class="texte-secondaire mb-xl">Partagez votre projet avec la communauté. Il sera examiné par un administrateur avant publication.</p>
+
+        <div class="formulaire-carte">
+            <form method="post">
+                {% csrf_token %}
+                {% for champ in formulaire %}
+                <div class="formulaire-groupe">
+                    <label for="{{ champ.id_for_label }}">{{ champ.label }}</label>
+                    {{ champ }}
+                    {% if champ.help_text %}
+                    <small class="texte-petit texte-leger">{{ champ.help_text }}</small>
+                    {% endif %}
+                    {% if champ.errors %}
+                    <div class="formulaire-erreur">{{ champ.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primaire btn-lg" style="width: 100%; justify-content: center;">Soumettre le projet</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block titre %}Projets communautaires — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur">
+        <div class="section-titre">
+            <h1>Projets communautaires</h1>
+            <p>Decouvrez les projets crees par les membres de la communaute. Inspirez-vous et partagez les votres !</p>
+        </div>
+
+        <div class="texte-centre mb-xl">
+            <a href="{% url 'soumettre_projet' %}" class="btn btn-primaire">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+                Soumettre mon projet
+            </a>
+        </div>
+
+        <div class="grille grille-3">
+            {% for projet in projets %}
+            <a href="{% url 'detail_projet' slug=projet.slug %}" class="carte projet-carte" style="text-decoration: none;">
+                <div class="projet-carte-image">
+                    {% if projet.capture_url %}
+                    <img src="{{ projet.capture_url }}" alt="{{ projet.titre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m10 8 4 4-4 4"/></svg>
+                    {% endif %}
+                </div>
+                <h4 class="carte-titre">{{ projet.titre }}</h4>
+                <p class="texte-secondaire texte-petit">{{ projet.description|truncatewords:20 }}</p>
+                <div class="texte-petit texte-secondaire" style="margin-top: var(--espace-sm);">
+                    Par <strong>{{ projet.auteur.username }}</strong>
+                </div>
+                <div class="projet-tags">
+                    {% for tech in projet.liste_technologies %}
+                    <span class="tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+            </a>
+            {% empty %}
+            <div class="etat-vide" style="grid-column: 1 / -1;">
+                <div class="etat-vide-icone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+                </div>
+                <h3>Aucun projet pour le moment</h3>
+                <p>Soyez le premier a soumettre votre projet !</p>
+                <a href="{% url 'soumettre_projet' %}" class="btn btn-primaire mt-lg">Soumettre un projet</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

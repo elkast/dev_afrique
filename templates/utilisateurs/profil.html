@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% block titre %}Mon profil — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur" style="max-width: 800px;">
+
+        <!-- Header profil -->
+        <div class="profil-header">
+            <img src="{{ user.get_avatar_display }}" alt="{{ user.username }}" class="avatar avatar-xl" id="avatar-preview">
+            <div class="profil-info" style="flex: 1;">
+                <h1 style="font-size: var(--taille-2xl); margin-bottom: 0.25rem;">
+                    {{ user.get_full_name|default:user.username }}
+                    <span class="xp-badge" style="font-size: var(--taille-xs); vertical-align: middle;">{{ user.get_niveau_display_icon }} {{ user.points_xp }} XP</span>
+                </h1>
+                <p style="opacity: 0.8; margin: 0;">@{{ user.username }} · {{ user.get_role_display }}
+                    {% if user.pays %} · 📍 {{ user.pays }}{% endif %}
+                </p>
+                <div class="profil-stats">
+                    <div class="profil-stat">
+                        <div class="profil-stat-nombre">{{ mes_projets.count }}</div>
+                        <div class="profil-stat-label">Projets</div>
+                    </div>
+                    <div class="profil-stat">
+                        <div class="profil-stat-nombre">{{ certificats.count }}</div>
+                        <div class="profil-stat-label">Certificats</div>
+                    </div>
+                    <div class="profil-stat">
+                        <div class="profil-stat-nombre">{{ progressions.count }}</div>
+                        <div class="profil-stat-label">Leçons</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Édition profil -->
+        <div class="carte mb-xl">
+            <h3>✏️ Informations personnelles</h3>
+            <form method="post" enctype="multipart/form-data" style="margin-top: var(--espace-lg);">
+                {% csrf_token %}
+
+                <!-- Avatar upload with drag & drop -->
+                <div class="formulaire-groupe">
+                    <label>Photo de profil</label>
+                    <div class="zone-depot" id="zone-depot-avatar">
+                        <div class="zone-depot-contenu">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                            <p class="zone-depot-texte">Glissez-déposez votre photo ici</p>
+                            <p class="texte-petit texte-secondaire">ou cliquez pour parcourir</p>
+                            <p class="texte-petit texte-leger">JPG, PNG, GIF, WebP — Max 2 Mo</p>
+                        </div>
+                        {{ formulaire.avatar }}
+                    </div>
+                    {% if formulaire.avatar.errors %}
+                    <div class="formulaire-erreur">{{ formulaire.avatar.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="grille grille-2" style="margin-bottom: var(--espace-lg);">
+                    <div class="formulaire-groupe">
+                        <label for="id_first_name">Prénom</label>
+                        {{ formulaire.first_name }}
+                    </div>
+                    <div class="formulaire-groupe">
+                        <label for="id_last_name">Nom</label>
+                        {{ formulaire.last_name }}
+                    </div>
+                </div>
+                <div class="formulaire-groupe">
+                    <label for="id_email">Email</label>
+                    {{ formulaire.email }}
+                </div>
+                <div class="grille grille-2" style="margin-bottom: var(--espace-lg);">
+                    <div class="formulaire-groupe">
+                        <label for="id_pays">Pays</label>
+                        {{ formulaire.pays }}
+                    </div>
+                    <div class="formulaire-groupe">
+                        <label for="id_ville">Ville</label>
+                        {{ formulaire.ville }}
+                    </div>
+                </div>
+                <div class="formulaire-groupe">
+                    <label for="id_biographie">Biographie</label>
+                    {{ formulaire.biographie }}
+                </div>
+                <div class="formulaire-groupe">
+                    <label for="id_site_web">Site web</label>
+                    {{ formulaire.site_web }}
+                </div>
+                <button type="submit" class="btn btn-primaire">Enregistrer les modifications</button>
+            </form>
+        </div>
+
+        <!-- Certificats -->
+        {% if certificats %}
+        <div class="carte mb-xl">
+            <h3>🏆 Mes certificats</h3>
+            <div style="margin-top: var(--espace-md);">
+                {% for cert in certificats %}
+                <div style="display: flex; align-items: center; gap: var(--espace-md); padding: var(--espace-sm) 0; border-bottom: 1px solid var(--bordure-clair);">
+                    <span style="font-size: 1.5rem;">{{ cert.parcours.icone }}</span>
+                    <div style="flex: 1;">
+                        <strong>{{ cert.parcours.titre }}</strong>
+                        <span class="texte-petit texte-secondaire"> — {{ cert.date_obtention|date:"d F Y" }}</span>
+                    </div>
+                    <span class="tag tag-or">Certifié</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Progression -->
+        <div class="carte mb-xl">
+            <h3>📈 Ma progression</h3>
+            {% if progressions %}
+            <div style="margin-top: var(--espace-md);">
+                {% for prog in progressions %}
+                <div style="display: flex; align-items: center; gap: var(--espace-md); padding: var(--espace-sm) 0; border-bottom: 1px solid var(--bordure-clair);">
+                    <span class="tag tag-succes">✓</span>
+                    <div>
+                        <strong>{{ prog.lecon.titre }}</strong>
+                        <span class="texte-petit texte-secondaire"> — {{ prog.lecon.cours.titre }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="texte-secondaire mt-md">Vous n'avez pas encore terminé de leçon. <a href="{% url 'liste_cours' %}">Commencez un cours !</a></p>
+            {% endif %}
+        </div>
+
+        <!-- Mes projets -->
+        <div class="carte">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>🚀 Mes projets</h3>
+                <a href="{% url 'soumettre_projet' %}" class="btn btn-sm btn-accent">+ Soumettre un projet</a>
+            </div>
+            {% if mes_projets %}
+            <div style="margin-top: var(--espace-md);">
+                {% for projet in mes_projets %}
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: var(--espace-sm) 0; border-bottom: 1px solid var(--bordure-clair);">
+                    <div>
+                        <strong>{{ projet.titre }}</strong>
+                        <span class="texte-petit texte-secondaire"> — {{ projet.technologies }}</span>
+                    </div>
+                    <span class="tag {% if projet.statut == 'approuve' %}tag-succes{% elif projet.statut == 'refuse' %}tag-danger{% else %}tag-or{% endif %}">
+                        {{ projet.get_statut_display }}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="texte-secondaire mt-md">Vous n'avez pas encore soumis de projet.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js_extra %}
+<script>
+/* ─── Drag & Drop Avatar Upload ──────────────────────────── */
+(function() {
+    var zone = document.getElementById('zone-depot-avatar');
+    var input = document.getElementById('avatar-input');
+    var preview = document.getElementById('avatar-preview');
+    if (!zone || !input) return;
+
+    /* Click to browse */
+    zone.addEventListener('click', function(e) {
+        if (e.target !== input) input.click();
+    });
+
+    /* Drag events */
+    ['dragenter', 'dragover'].forEach(function(evt) {
+        zone.addEventListener(evt, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            zone.classList.add('zone-depot-active');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(function(evt) {
+        zone.addEventListener(evt, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            zone.classList.remove('zone-depot-active');
+        });
+    });
+
+    zone.addEventListener('drop', function(e) {
+        var files = e.dataTransfer.files;
+        if (files.length > 0) {
+            input.files = files;
+            afficherPreview(files[0]);
+        }
+    });
+
+    input.addEventListener('change', function() {
+        if (input.files.length > 0) {
+            afficherPreview(input.files[0]);
+        }
+    });
+
+    function afficherPreview(file) {
+        if (!file.type.startsWith('image/')) return;
+        if (file.size > 2 * 1024 * 1024) {
+            alert('La taille maximale est de 2 Mo.');
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            if (preview) preview.src = e.target.result;
+            zone.querySelector('.zone-depot-texte').textContent = file.name;
+        };
+        reader.readAsDataURL(file);
+    }
+})();
+</script>
+{% endblock %}

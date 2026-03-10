@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block titre %}Forum d'entraide — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur">
+        <div class="section-titre">
+            <h1>Forum d'entraide</h1>
+            <p>Posez vos questions, partagez vos connaissances, aidez la communauté.</p>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--espace-xl); flex-wrap: wrap; gap: var(--espace-md);">
+            <div style="display: flex; gap: var(--espace-sm); flex-wrap: wrap;">
+                <a href="{% url 'forum' %}" class="btn {% if not categorie %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">Tous</a>
+                {% for cat_val, cat_label in categories %}
+                <a href="{% url 'forum' %}?categorie={{ cat_val }}" class="btn {% if categorie == cat_val %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">{{ cat_label }}</a>
+                {% endfor %}
+            </div>
+            {% if user.is_authenticated %}
+            <a href="{% url 'forum_nouveau' %}" class="btn btn-accent">+ Nouveau sujet</a>
+            {% endif %}
+        </div>
+
+        <!-- Recherche -->
+        <form method="get" action="{% url 'forum' %}" class="barre-recherche mb-xl">
+            <input type="text" name="q" value="{{ recherche }}" class="champ-formulaire" placeholder="Rechercher un sujet...">
+            <button type="submit" class="btn btn-primaire">Chercher</button>
+        </form>
+
+        <!-- Liste des sujets -->
+        <div class="carte" style="padding: 0; overflow: hidden;">
+            {% for sujet in sujets %}
+            <div class="forum-sujet">
+                <div class="forum-sujet-icone {% if sujet.est_resolu %}resolu{% endif %}">
+                    {% if sujet.est_resolu %}✅{% elif sujet.est_epingle %}📌{% else %}💬{% endif %}
+                </div>
+                <div class="forum-sujet-contenu">
+                    <a href="{% url 'forum_detail' slug=sujet.slug %}" class="forum-sujet-titre" style="text-decoration: none; display: block;">
+                        {% if sujet.est_epingle %}<span class="tag tag-or" style="margin-right: 0.25rem;">Épinglé</span>{% endif %}
+                        {% if sujet.est_resolu %}<span class="tag tag-succes" style="margin-right: 0.25rem;">Résolu</span>{% endif %}
+                        {{ sujet.titre }}
+                    </a>
+                    <div class="forum-sujet-meta">
+                        <span>Par <strong>{{ sujet.auteur.username }}</strong></span>
+                        <span>{{ sujet.date_creation|timesince }} ago</span>
+                        <span class="tag" style="font-size: 0.65rem;">{{ sujet.get_categorie_display }}</span>
+                    </div>
+                </div>
+                <div class="forum-stats">
+                    <span title="Réponses">💬 {{ sujet.nombre_reponses }}</span>
+                    <span title="Vues">👁 {{ sujet.nb_vues }}</span>
+                </div>
+            </div>
+            {% empty %}
+            <div class="etat-vide">
+                <div class="etat-vide-icone">💬</div>
+                <h3>Aucun sujet pour le moment</h3>
+                <p>Soyez le premier à poser une question !</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'forum_nouveau' %}" class="btn btn-accent mt-lg">Créer un sujet</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if sujets.has_other_pages %}
+        <div class="pagination">
+            {% if sujets.has_previous %}
+            <a href="?page={{ sujets.previous_page_number }}{% if categorie %}&categorie={{ categorie }}{% endif %}">← Précédent</a>
+            {% endif %}
+            {% for num in sujets.paginator.page_range %}
+            {% if sujets.number == num %}
+            <span class="actif">{{ num }}</span>
+            {% else %}
+            <a href="?page={{ num }}{% if categorie %}&categorie={{ categorie }}{% endif %}">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+            {% if sujets.has_next %}
+            <a href="?page={{ sujets.next_page_number }}{% if categorie %}&categorie={{ categorie }}{% endif %}">Suivant →</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

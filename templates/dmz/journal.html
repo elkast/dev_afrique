@@ -1,0 +1,54 @@
+{% extends 'dmz/base_dmz.html' %}
+{% block titre %}Journal de sécurité — DMZ — DevAfrique{% endblock %}
+
+{% block contenu_dmz %}
+<div class="admin-header">
+    <h1>📋 Journal de sécurité</h1>
+</div>
+
+<div style="display: flex; gap: var(--espace-md); margin-bottom: var(--espace-xl); flex-wrap: wrap;">
+    <a href="{% url 'dmz_journal' %}" class="btn btn-sm {% if not niveau_filtre and not type_filtre %}btn-primaire{% else %}btn-secondaire{% endif %}">Tous</a>
+    <a href="{% url 'dmz_journal' %}?niveau=critique" class="btn btn-sm {% if niveau_filtre == 'critique' %}btn-danger{% else %}btn-secondaire{% endif %}">🚨 Critique</a>
+    <a href="{% url 'dmz_journal' %}?niveau=danger" class="btn btn-sm {% if niveau_filtre == 'danger' %}btn-danger{% else %}btn-secondaire{% endif %}">🔴 Danger</a>
+    <a href="{% url 'dmz_journal' %}?niveau=warning" class="btn btn-sm {% if niveau_filtre == 'warning' %}btn-or{% else %}btn-secondaire{% endif %}">⚠️ Avert.</a>
+    <a href="{% url 'dmz_journal' %}?niveau=info" class="btn btn-sm {% if niveau_filtre == 'info' %}btn-primaire{% else %}btn-secondaire{% endif %}">ℹ️ Info</a>
+</div>
+
+<div class="carte">
+    <table class="tableau">
+        <thead>
+            <tr><th>Niveau</th><th>Type</th><th>IP</th><th>Utilisateur</th><th>Description</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+            {% for evt in evenements %}
+            <tr>
+                <td>
+                    <span class="tag {% if evt.niveau == 'critique' %}tag-danger{% elif evt.niveau == 'danger' %}tag-danger{% elif evt.niveau == 'warning' %}tag-or{% else %}tag-info{% endif %}">
+                        {{ evt.get_niveau_display }}
+                    </span>
+                </td>
+                <td>{{ evt.get_type_evenement_display }}</td>
+                <td><code>{{ evt.adresse_ip|default:"-" }}</code></td>
+                <td>{{ evt.nom_utilisateur|default:"-" }}</td>
+                <td style="max-width: 350px; overflow: hidden; text-overflow: ellipsis;">{{ evt.description|truncatewords:15 }}</td>
+                <td>{{ evt.date|date:"d/m/Y H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="texte-centre texte-secondaire">Aucun événement enregistré.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if evenements.has_other_pages %}
+<div class="pagination">
+    {% if evenements.has_previous %}
+    <a href="?page={{ evenements.previous_page_number }}&niveau={{ niveau_filtre }}&type={{ type_filtre }}">← Précédent</a>
+    {% endif %}
+    <span class="actif">{{ evenements.number }} / {{ evenements.paginator.num_pages }}</span>
+    {% if evenements.has_next %}
+    <a href="?page={{ evenements.next_page_number }}&niveau={{ niveau_filtre }}&type={{ type_filtre }}">Suivant →</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

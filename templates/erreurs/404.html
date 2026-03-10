@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block titre %}404 — Page introuvable — DevAfrique{% endblock %}
+{% block contenu %}
+<section class="section" style="min-height: 60vh; display: flex; align-items: center;">
+    <div class="conteneur texte-centre">
+        <div class="etat-vide-icone" style="background: var(--couleur-primaire-tres-clair); color: var(--couleur-primaire);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="m11 8-3 6h6"/></svg>
+        </div>
+        <h1 style="font-size: var(--taille-5xl); color: var(--couleur-primaire);">404</h1>
+        <h2>Page introuvable</h2>
+        <p class="texte-secondaire" style="max-width: 45ch; margin: var(--espace-md) auto;">La page que vous cherchez n'existe pas ou a été déplacée. Peut-être une faute de frappe ?</p>
+        <div style="display: flex; gap: var(--espace-md); justify-content: center; margin-top: var(--espace-xl);">
+            <a href="{% url 'accueil' %}" class="btn btn-primaire btn-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                Accueil
+            </a>
+            <a href="{% url 'liste_cours' %}" class="btn btn-secondaire btn-lg">Voir les cours</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

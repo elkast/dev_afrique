@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: devafrique
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn siteweb.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DATABASE_URL
+        value: "postgresql://neondb_owner:npg_QWCGJNnPr4Y6@ep-icy-sun-ah25tfea-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://devafrique.onrender.com"
+      - key: PYTHON_VERSION
+        value: "3.12.0"

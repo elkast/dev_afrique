@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block titre %}Bibliographie — Les créateurs — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="hero" style="padding: var(--espace-2xl) 0;">
+    <div class="conteneur" style="position: relative; z-index: 1; text-align: center;">
+        <h1>Les <span>créateurs</span> de DevAfrique</h1>
+        <p style="margin: var(--espace-md) auto; max-width: 55ch; text-align: center;">L'équipe passionnée qui construit la plateforme éducative de référence pour l'Afrique.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="conteneur" style="max-width: var(--largeur-contenu);">
+
+        <h2>L'équipe fondatrice</h2>
+
+        <div class="grille grille-2 mt-lg mb-xl">
+            <div class="carte" style="text-align: center; padding: var(--espace-2xl);">
+                <img src="https://i.pravatar.cc/120?u=fondateur1" alt="Fondateur" class="avatar avatar-xl" style="margin: 0 auto var(--espace-md);">
+                <h3 class="carte-titre" style="margin-bottom: var(--espace-xs);">Orsin</h3>
+                <p class="texte-secondaire texte-petit">Fondateur & Développeur Principal</p>
+                <p class="texte-secondaire texte-petit" style="max-width: 35ch; margin: var(--espace-sm) auto;">Passionné par la démocratisation du savoir technologique en Afrique. Développeur full-stack avec une vision : rendre l'éducation tech accessible à tous.</p>
+                <div style="margin-top: var(--espace-md);">
+                    <span class="tag">Python</span>
+                    <span class="tag" style="background: var(--couleur-info-clair); color: var(--couleur-info);">Django</span>
+                    <span class="tag" style="background: var(--couleur-succes-clair); color: var(--couleur-succes);">Full-Stack</span>
+                </div>
+            </div>
+            <div class="carte" style="text-align: center; padding: var(--espace-2xl);">
+                <img src="https://i.pravatar.cc/120?u=ia-assistant" alt="Kombai IA" class="avatar avatar-xl" style="margin: 0 auto var(--espace-md);">
+                <h3 class="carte-titre" style="margin-bottom: var(--espace-xs);">Kombai IA</h3>
+                <p class="texte-secondaire texte-petit">Assistant de développement</p>
+                <p class="texte-secondaire texte-petit" style="max-width: 35ch; margin: var(--espace-sm) auto;">Intelligence artificielle ayant assisté dans la création du code, des leçons et de l'architecture de la plateforme.</p>
+                <div style="margin-top: var(--espace-md);">
+                    <span class="tag" style="background: var(--couleur-accent-clair); color: var(--couleur-accent);">IA</span>
+                    <span class="tag">Code</span>
+                    <span class="tag" style="background: var(--couleur-secondaire-clair); color: var(--couleur-secondaire);">Contenu</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>Technologies utilisées</h2>
+        <div class="grille grille-3 mt-lg mb-xl">
+            <div class="carte carte-plate" style="text-align: center; padding: var(--espace-lg);">
+                <div class="carte-icone" style="margin: 0 auto var(--espace-sm); background: var(--couleur-succes-clair); color: var(--couleur-succes);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                </div>
+                <strong>Django 5</strong>
+                <p class="texte-secondaire texte-petit">Backend Python</p>
+            </div>
+            <div class="carte carte-plate" style="text-align: center; padding: var(--espace-lg);">
+                <div class="carte-icone" style="margin: 0 auto var(--espace-sm); background: var(--couleur-info-clair); color: var(--couleur-info);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h10"/></svg>
+                </div>
+                <strong>PostgreSQL / Neon</strong>
+                <p class="texte-secondaire texte-petit">Base de données</p>
+            </div>
+            <div class="carte carte-plate" style="text-align: center; padding: var(--espace-lg);">
+                <div class="carte-icone" style="margin: 0 auto var(--espace-sm);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </div>
+                <strong>Render</strong>
+                <p class="texte-secondaire texte-petit">Hébergement</p>
+            </div>
+        </div>
+
+        <h2>Références et inspirations</h2>
+        <ul class="feature-list mt-lg">
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg><strong>MDN Web Docs</strong> — Documentation de référence pour HTML, CSS et JavaScript</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg><strong>Django Documentation officielle</strong> — Guide complet du framework Django</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg><strong>React Documentation</strong> — Bibliothèque JavaScript pour les interfaces utilisateur</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg><strong>Python.org</strong> — Langage de programmation Python</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg><strong>Tailwind CSS</strong> — Framework CSS utilitaire</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg><strong>OpenClassrooms, FreeCodeCamp, W3Schools</strong> — Inspirations pédagogiques</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg><strong>Render.com</strong> — Plateforme d'hébergement cloud</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg><strong>Neon.tech</strong> — PostgreSQL serverless pour le déploiement</li>
+        </ul>
+
+        <h2 class="mt-xl">Licence</h2>
+        <p>DevAfrique est un projet éducatif à but non lucratif. Le contenu des cours est mis à disposition sous licence libre pour favoriser l'apprentissage en Afrique.</p>
+
+        <div class="texte-centre mt-xl">
+            <a href="{% url 'accueil' %}" class="btn btn-primaire btn-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                Retour à l'accueil
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

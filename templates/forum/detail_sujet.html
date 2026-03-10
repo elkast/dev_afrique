@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block titre %}{{ sujet.titre }} — Forum DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur" style="max-width: var(--largeur-contenu);">
+        <div class="fil-ariane">
+            <a href="{% url 'forum' %}">Forum</a>
+            <span class="fil-ariane-separateur">›</span>
+            <span class="tag">{{ sujet.get_categorie_display }}</span>
+        </div>
+
+        <!-- Question -->
+        <div class="carte mb-xl">
+            <div style="display: flex; align-items: flex-start; gap: var(--espace-md); margin-bottom: var(--espace-lg);">
+                <img src="{{ sujet.auteur.get_avatar_display }}" alt="{{ sujet.auteur.username }}" class="avatar">
+                <div style="flex: 1;">
+                    <h1 style="font-size: var(--taille-2xl); margin-bottom: var(--espace-xs);">
+                        {% if sujet.est_resolu %}<span class="tag tag-succes" style="margin-right: 0.5rem;">✅ Résolu</span>{% endif %}
+                        {{ sujet.titre }}
+                    </h1>
+                    <div class="texte-petit texte-secondaire">
+                        Par <a href="{% url 'profil_public' username=sujet.auteur.username %}"><strong>{{ sujet.auteur.username }}</strong></a>
+                        · {{ sujet.date_creation|timesince }}
+                        · {{ sujet.nb_vues }} vues
+                        · {{ sujet.nombre_reponses }} réponse{{ sujet.nombre_reponses|pluralize:"s" }}
+                    </div>
+                </div>
+            </div>
+            <div class="contenu-lecon">
+                {{ sujet.contenu|linebreaks }}
+            </div>
+        </div>
+
+        <!-- Réponses -->
+        <h3 class="mb-lg">{{ reponses.count }} réponse{{ reponses.count|pluralize:"s" }}</h3>
+
+        {% for reponse in reponses %}
+        <div class="forum-reponse {% if reponse.est_solution %}solution{% endif %}">
+            <div class="forum-reponse-header">
+                <img src="{{ reponse.auteur.get_avatar_display }}" alt="{{ reponse.auteur.username }}" class="avatar avatar-sm">
+                <div style="flex: 1;">
+                    <a href="{% url 'profil_public' username=reponse.auteur.username %}"><strong>{{ reponse.auteur.username }}</strong></a>
+                    <span class="texte-petit texte-leger"> · {{ reponse.date_creation|timesince }}</span>
+                    {% if reponse.est_solution %}<span class="tag tag-succes" style="margin-left: 0.5rem;">✅ Solution</span>{% endif %}
+                </div>
+                {% if user == sujet.auteur and not sujet.est_resolu %}
+                <a href="{% url 'forum_solution' slug=sujet.slug reponse_id=reponse.id %}" class="btn btn-sm btn-succes">Marquer comme solution</a>
+                {% endif %}
+            </div>
+            <div class="contenu-lecon">
+                {{ reponse.contenu|linebreaks }}
+            </div>
+        </div>
+        {% empty %}
+        <div class="etat-vide">
+            <div class="etat-vide-icone">💬</div>
+            <p>Aucune réponse pour le moment. Soyez le premier à aider !</p>
+        </div>
+        {% endfor %}
+
+        <!-- Formulaire réponse -->
+        {% if user.is_authenticated %}
+        <div class="carte mt-xl">
+            <h3 class="mb-lg">Votre réponse</h3>
+            <form method="post" action="{% url 'forum_repondre' slug=sujet.slug %}">
+                {% csrf_token %}
+                <div class="formulaire-groupe">
+                    {{ formulaire.contenu }}
+                </div>
+                <button type="submit" class="btn btn-primaire">Publier la réponse</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="carte mt-xl texte-centre">
+            <p class="texte-secondaire"><a href="{% url 'connexion' %}">Connectez-vous</a> pour répondre à ce sujet.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

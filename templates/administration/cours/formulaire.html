@@ -1,0 +1,31 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}{{ action }} un cours — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div class="fil-ariane">
+    <a href="{% url 'admin_liste_cours' %}">Cours</a>
+    <span class="fil-ariane-separateur">›</span>
+    <span>{{ action }}</span>
+</div>
+
+<h1>{{ action }} un cours</h1>
+
+<div class="carte" style="max-width: 600px;">
+    <form method="post">
+        {% csrf_token %}
+        {% for champ in formulaire %}
+        <div class="formulaire-groupe">
+            <label for="{{ champ.id_for_label }}">{{ champ.label }}</label>
+            {{ champ }}
+            {% if champ.errors %}
+            <div class="formulaire-erreur">{{ champ.errors.0 }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <div style="display: flex; gap: var(--espace-md);">
+            <button type="submit" class="btn btn-primaire">{{ action }}</button>
+            <a href="{% url 'admin_liste_cours' %}" class="btn btn-secondaire">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

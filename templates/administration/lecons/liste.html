@@ -1,0 +1,46 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Gestion des leçons — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div class="admin-header">
+    <h1>Gestion des leçons</h1>
+    <a href="{% url 'admin_creer_lecon' %}" class="btn btn-primaire">+ Nouvelle leçon</a>
+</div>
+
+<table class="tableau">
+    <thead>
+        <tr>
+            <th>Ordre</th>
+            <th>Titre</th>
+            <th>Cours</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for l in lecons_liste %}
+        <tr>
+            <td>{{ l.ordre }}</td>
+            <td><strong>{{ l.titre }}</strong></td>
+            <td>
+                <span class="tag">{{ l.cours.titre }}</span>
+                <span class="texte-petit texte-leger"> — {{ l.cours.parcours.titre }}</span>
+            </td>
+            <td>
+                {% if l.est_publie %}
+                <span class="tag tag-succes">Publiée</span>
+                {% else %}
+                <span class="tag tag-accent">Brouillon</span>
+                {% endif %}
+            </td>
+            <td class="tableau-actions">
+                <a href="{% url 'admin_modifier_lecon' pk=l.pk %}" class="btn btn-sm btn-secondaire">Modifier</a>
+                <a href="{% url 'admin_supprimer_lecon' pk=l.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="texte-centre texte-secondaire" style="padding: var(--espace-xl);">Aucune leçon créée.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

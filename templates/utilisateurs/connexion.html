@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block titre %}Connexion — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="formulaire-conteneur">
+        <div class="formulaire-carte">
+            <h1 class="texte-centre" style="font-size: var(--taille-2xl);">Se connecter</h1>
+            <p class="texte-centre texte-secondaire mb-xl">Accédez à vos cours et votre progression.</p>
+
+            {% if formulaire.errors %}
+            <div class="message message-error mb-lg">
+                Nom d'utilisateur ou mot de passe incorrect.
+            </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="formulaire-groupe">
+                    <label for="id_username">Nom d'utilisateur</label>
+                    {{ formulaire.username }}
+                </div>
+                <div class="formulaire-groupe">
+                    <label for="id_password">Mot de passe</label>
+                    {{ formulaire.password }}
+                </div>
+                <button type="submit" class="btn btn-primaire btn-lg" style="width: 100%; justify-content: center;">Se connecter</button>
+            </form>
+
+            <p class="texte-centre texte-secondaire mt-lg">
+                Pas encore de compte ? <a href="{% url 'inscription' %}">Créer un compte</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

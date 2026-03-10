@@ -1,0 +1,44 @@
+{% extends 'dmz/base_dmz.html' %}
+{% block titre %}Tentatives de connexion — DMZ — DevAfrique{% endblock %}
+
+{% block contenu_dmz %}
+<div class="admin-header">
+    <h1>🔐 Tentatives de connexion</h1>
+</div>
+
+<div style="display: flex; gap: var(--espace-md); margin-bottom: var(--espace-xl);">
+    <a href="{% url 'dmz_tentatives' %}" class="btn btn-sm {% if not statut_filtre %}btn-primaire{% else %}btn-secondaire{% endif %}">Toutes</a>
+    <a href="{% url 'dmz_tentatives' %}?statut=echec" class="btn btn-sm {% if statut_filtre == 'echec' %}btn-danger{% else %}btn-secondaire{% endif %}">❌ Échouées</a>
+    <a href="{% url 'dmz_tentatives' %}?statut=reussi" class="btn btn-sm {% if statut_filtre == 'reussi' %}btn-succes{% else %}btn-secondaire{% endif %}">✅ Réussies</a>
+</div>
+
+<div class="carte">
+    <table class="tableau">
+        <thead>
+            <tr><th>Statut</th><th>IP</th><th>Utilisateur</th><th>Chemin</th><th>User-Agent</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+            {% for t in tentatives %}
+            <tr>
+                <td>{% if t.reussie %}<span class="tag tag-succes">✅</span>{% else %}<span class="tag tag-danger">❌</span>{% endif %}</td>
+                <td><code>{{ t.adresse_ip }}</code></td>
+                <td>{{ t.nom_utilisateur|default:"-" }}</td>
+                <td>{{ t.chemin|truncatechars:30 }}</td>
+                <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ t.user_agent|truncatechars:50 }}</td>
+                <td>{{ t.date|date:"d/m/Y H:i:s" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="texte-centre texte-secondaire">Aucune tentative enregistrée.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if tentatives.has_other_pages %}
+<div class="pagination">
+    {% if tentatives.has_previous %}<a href="?page={{ tentatives.previous_page_number }}&statut={{ statut_filtre }}">← Précédent</a>{% endif %}
+    <span class="actif">{{ tentatives.number }} / {{ tentatives.paginator.num_pages }}</span>
+    {% if tentatives.has_next %}<a href="?page={{ tentatives.next_page_number }}&statut={{ statut_filtre }}">Suivant →</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

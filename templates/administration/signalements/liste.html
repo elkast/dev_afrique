@@ -1,0 +1,43 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Signalements — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div class="admin-header">
+    <h1>🚩 Signalements</h1>
+    <div style="display: flex; gap: var(--espace-sm);">
+        <a href="{% url 'admin_liste_signalements' %}?statut=en_attente" class="btn {% if statut_filtre == 'en_attente' %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">En attente</a>
+        <a href="{% url 'admin_liste_signalements' %}?statut=traite" class="btn {% if statut_filtre == 'traite' %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">Traités</a>
+        <a href="{% url 'admin_liste_signalements' %}?statut=ignore" class="btn {% if statut_filtre == 'ignore' %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">Ignorés</a>
+    </div>
+</div>
+
+<table class="tableau">
+    <thead>
+        <tr><th>Type</th><th>Raison</th><th>Description</th><th>Signaleur</th><th>Date</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for sig in signalements %}
+        <tr>
+            <td><span class="tag">{{ sig.get_type_contenu_display }}</span> #{{ sig.id_contenu }}</td>
+            <td>{{ sig.get_raison_display }}</td>
+            <td>{{ sig.description|truncatewords:10 }}</td>
+            <td>{{ sig.signaleur.username }}</td>
+            <td>{{ sig.date_creation|date:"d/m/Y" }}</td>
+            <td>
+                {% if sig.statut == 'en_attente' %}
+                <form method="post" action="{% url 'admin_traiter_signalement' pk=sig.pk %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="traiter" class="btn btn-sm btn-primaire">Traiter</button>
+                    <button type="submit" name="action" value="ignorer" class="btn btn-sm btn-secondaire">Ignorer</button>
+                </form>
+                {% else %}
+                <span class="tag {% if sig.statut == 'traite' %}tag-succes{% else %}tag-or{% endif %}">{{ sig.get_statut_display }}</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="texte-centre texte-secondaire" style="padding: var(--espace-2xl);">Aucun signalement {{ statut_filtre }}.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

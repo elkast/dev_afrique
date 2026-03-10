@@ -1,0 +1,144 @@
+{% extends 'dmz/base_dmz.html' %}
+{% block titre %}DMZ — Sécurité — DevAfrique{% endblock %}
+
+{% block contenu_dmz %}
+<h1>🛡️ DMZ — Centre de Sécurité</h1>
+
+<div class="stats-admin">
+    <div class="stat-carte">
+        <span class="stat-carte-nombre">{{ stats.tentatives_24h }}</span>
+        <span class="stat-carte-label">Tentatives (24h)</span>
+    </div>
+    <div class="stat-carte" {% if stats.echecs_24h > 5 %}style="border-color: var(--couleur-danger);"{% endif %}>
+        <span class="stat-carte-nombre" {% if stats.echecs_24h > 5 %}style="color: var(--couleur-danger);"{% endif %}>{{ stats.echecs_24h }}</span>
+        <span class="stat-carte-label">Échecs (24h)</span>
+    </div>
+    <div class="stat-carte" {% if stats.ips_bloquees > 0 %}style="border-color: var(--couleur-accent);"{% endif %}>
+        <span class="stat-carte-nombre" {% if stats.ips_bloquees > 0 %}style="color: var(--couleur-accent);"{% endif %}>{{ stats.ips_bloquees }}</span>
+        <span class="stat-carte-label">IPs bloquées</span>
+    </div>
+    <div class="stat-carte" {% if stats.alertes_critiques > 0 %}style="border-color: var(--couleur-danger);"{% endif %}>
+        <span class="stat-carte-nombre" {% if stats.alertes_critiques > 0 %}style="color: var(--couleur-danger);"{% endif %}>{{ stats.alertes_critiques }}</span>
+        <span class="stat-carte-label">Alertes critiques</span>
+    </div>
+    <div class="stat-carte" {% if stats.tentatives_admin > 0 %}style="border-color: var(--couleur-danger);"{% endif %}>
+        <span class="stat-carte-nombre" {% if stats.tentatives_admin > 0 %}style="color: var(--couleur-danger);"{% endif %}>{{ stats.tentatives_admin }}</span>
+        <span class="stat-carte-label">Attaques admin (24h)</span>
+    </div>
+</div>
+
+<!-- Top attacking IPs -->
+{% if top_ips %}
+<div class="carte mb-xl">
+    <h3>🎯 Top IPs suspectes (7 jours)</h3>
+    <table class="tableau" style="margin-top: var(--espace-md);">
+        <thead>
+            <tr><th>Adresse IP</th><th>Tentatives échouées</th><th>Statut</th></tr>
+        </thead>
+        <tbody>
+            {% for ip_data in top_ips %}
+            <tr>
+                <td><code>{{ ip_data.adresse_ip }}</code></td>
+                <td><span class="tag {% if ip_data.nb >= 10 %}tag-danger{% elif ip_data.nb >= 5 %}tag-or{% else %}tag-info{% endif %}">{{ ip_data.nb }} tentatives</span></td>
+                <td>
+                    <form method="post" action="{% url 'dmz_bloquer_ip' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="adresse_ip" value="{{ ip_data.adresse_ip }}">
+                        <input type="hidden" name="raison" value="manuelle">
+                        <input type="hidden" name="details" value="Bloqué depuis le tableau DMZ">
+                        <button type="submit" class="btn btn-sm btn-danger">Bloquer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Blocked IPs -->
+{% if ips_bloquees %}
+<div class="carte mb-xl">
+    <h3>🚫 IPs actuellement bloquées</h3>
+    <table class="tableau" style="margin-top: var(--espace-md);">
+        <thead>
+            <tr><th>IP</th><th>Raison</th><th>Tentatives</th><th>Depuis</th><th>Expire</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for ip in ips_bloquees %}
+            <tr>
+                <td><code>{{ ip.adresse_ip }}</code></td>
+                <td><span class="tag tag-danger">{{ ip.get_raison_display }}</span></td>
+                <td>{{ ip.nombre_tentatives }}</td>
+                <td>{{ ip.date_blocage|date:"d/m/Y H:i" }}</td>
+                <td>{% if ip.date_expiration %}{{ ip.date_expiration|date:"d/m/Y H:i" }}{% else %}<span class="tag tag-danger">Permanent</span>{% endif %}</td>
+                <td>
+                    <form method="post" action="{% url 'dmz_debloquer_ip' pk=ip.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-secondaire">Débloquer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Recent Events -->
+{% if evenements_recents %}
+<div class="carte">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3>📋 Événements récents</h3>
+        <a href="{% url 'dmz_journal' %}" class="btn btn-sm btn-secondaire">Voir tout</a>
+    </div>
+    <table class="tableau" style="margin-top: var(--espace-md);">
+        <thead>
+            <tr><th>Niveau</th><th>Type</th><th>IP</th><th>Description</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+            {% for evt in evenements_recents %}
+            <tr>
+                <td>
+                    <span class="tag {% if evt.niveau == 'critique' %}tag-danger{% elif evt.niveau == 'danger' %}tag-danger{% elif evt.niveau == 'warning' %}tag-or{% else %}tag-info{% endif %}">
+                        {{ evt.get_niveau_display }}
+                    </span>
+                </td>
+                <td>{{ evt.get_type_evenement_display }}</td>
+                <td><code>{{ evt.adresse_ip }}</code></td>
+                <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ evt.description|truncatewords:12 }}</td>
+                <td>{{ evt.date|date:"d/m H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Block IP manually -->
+<div class="carte mt-xl">
+    <h3>🔒 Bloquer une IP manuellement</h3>
+    <form method="post" action="{% url 'dmz_bloquer_ip' %}" style="margin-top: var(--espace-md); display: flex; gap: var(--espace-md); align-items: end; flex-wrap: wrap;">
+        {% csrf_token %}
+        <div class="formulaire-groupe" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+            <label>Adresse IP</label>
+            <input type="text" name="adresse_ip" class="champ-formulaire" placeholder="192.168.1.1" required>
+        </div>
+        <div class="formulaire-groupe" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+            <label>Raison</label>
+            <select name="raison" class="champ-formulaire">
+                <option value="manuelle">Blocage manuel</option>
+                <option value="brute_force">Brute force</option>
+                <option value="injection">Injection</option>
+                <option value="scan">Scan</option>
+                <option value="spam">Spam</option>
+            </select>
+        </div>
+        <div class="formulaire-groupe" style="margin-bottom: 0; flex: 2; min-width: 200px;">
+            <label>Détails</label>
+            <input type="text" name="details" class="champ-formulaire" placeholder="Raison du blocage...">
+        </div>
+        <button type="submit" class="btn btn-danger">Bloquer</button>
+    </form>
+</div>
+{% endblock %}

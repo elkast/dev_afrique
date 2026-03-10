@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block titre %}Inscription — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="formulaire-conteneur">
+        <div class="formulaire-carte">
+            <h1 class="texte-centre" style="font-size: var(--taille-2xl);">Créer un compte</h1>
+            <p class="texte-centre texte-secondaire mb-xl">Rejoignez la communauté et commencez à apprendre.</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="formulaire-groupe">
+                    <label for="id_username">Nom d'utilisateur</label>
+                    {{ formulaire.username }}
+                    {% if formulaire.username.errors %}
+                    <div class="formulaire-erreur">{{ formulaire.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="formulaire-groupe">
+                    <label for="id_email">Email</label>
+                    {{ formulaire.email }}
+                    {% if formulaire.email.errors %}
+                    <div class="formulaire-erreur">{{ formulaire.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="formulaire-groupe">
+                    <label for="id_password1">Mot de passe</label>
+                    {{ formulaire.password1 }}
+                    {% if formulaire.password1.errors %}
+                    <div class="formulaire-erreur">{{ formulaire.password1.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="formulaire-groupe">
+                    <label for="id_password2">Confirmer le mot de passe</label>
+                    {{ formulaire.password2 }}
+                    {% if formulaire.password2.errors %}
+                    <div class="formulaire-erreur">{{ formulaire.password2.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primaire btn-lg" style="width: 100%; justify-content: center;">Créer mon compte</button>
+            </form>
+
+            <p class="texte-centre texte-secondaire mt-lg">
+                Déjà un compte ? <a href="{% url 'connexion' %}">Se connecter</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

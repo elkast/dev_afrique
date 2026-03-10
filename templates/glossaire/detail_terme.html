@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block titre %}{{ terme.terme }} — Glossaire DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur" style="max-width: var(--largeur-contenu);">
+        <div class="fil-ariane">
+            <a href="{% url 'glossaire' %}">Glossaire</a>
+            <span class="fil-ariane-separateur">›</span>
+            <a href="{% url 'glossaire' %}?lettre={{ terme.lettre }}">{{ terme.lettre }}</a>
+            <span class="fil-ariane-separateur">›</span>
+            <span>{{ terme.terme }}</span>
+        </div>
+
+        <div class="carte mb-xl">
+            <span class="tag mb-md">{{ terme.get_categorie_display }}</span>
+            <h1>{{ terme.terme }}</h1>
+            <div class="contenu-lecon">
+                {{ terme.definition|linebreaks }}
+            </div>
+
+            {% if terme.exemple_code %}
+            <h3 class="mt-xl">Exemple de code</h3>
+            <div class="bloc-code">
+                <div class="bloc-code-header">
+                    <span class="bloc-code-langage">{{ terme.langage_exemple|default:"Code" }}</span>
+                    <button class="btn-copier">Copier</button>
+                </div>
+                <pre>{{ terme.exemple_code }}</pre>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if termes_lies %}
+        <h3 class="mb-lg">Termes liés</h3>
+        <div class="grille grille-2">
+            {% for t in termes_lies %}
+            <a href="{% url 'glossaire_detail' slug=t.slug %}" class="carte" style="text-decoration: none; padding: var(--espace-lg);">
+                <h4 class="carte-titre" style="margin-bottom: 0.25rem;">{{ t.terme }}</h4>
+                <p class="texte-secondaire texte-petit" style="margin: 0;">{{ t.definition|truncatewords:15 }}</p>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

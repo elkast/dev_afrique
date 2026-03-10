@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block titre %}400 — Requête invalide — DevAfrique{% endblock %}
+{% block contenu %}
+<section class="section" style="min-height: 60vh; display: flex; align-items: center;">
+    <div class="conteneur texte-centre">
+        <div class="etat-vide-icone" style="background: var(--couleur-secondaire-clair); color: var(--couleur-secondaire);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        </div>
+        <h1 style="font-size: var(--taille-5xl); color: var(--couleur-secondaire);">400</h1>
+        <h2>Requête invalide</h2>
+        <p class="texte-secondaire" style="max-width: 45ch; margin: var(--espace-md) auto;">Le serveur n'a pas pu comprendre votre requête. Vérifiez l'URL et réessayez.</p>
+        <a href="{% url 'accueil' %}" class="btn btn-primaire btn-lg mt-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Retour à l'accueil
+        </a>
+    </div>
+</section>
+{% endblock %}

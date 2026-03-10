@@ -1,0 +1,56 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Modérer : {{ projet.titre }} — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div class="fil-ariane">
+    <a href="{% url 'admin_liste_projets' %}">Projets</a>
+    <span class="fil-ariane-separateur">›</span>
+    <span>Modérer</span>
+</div>
+
+<h1>Modérer un projet</h1>
+
+<div class="grille grille-2">
+    <div class="carte">
+        <h3>{{ projet.titre }}</h3>
+        <p class="texte-secondaire texte-petit">Par <strong>{{ projet.auteur.username }}</strong> — {{ projet.date_soumission|date:"d F Y" }}</p>
+
+        <h4 class="mt-lg">Description</h4>
+        <p>{{ projet.description }}</p>
+
+        <h4 class="mt-lg">Technologies</h4>
+        <div class="projet-tags">
+            {% for tech in projet.liste_technologies %}
+            <span class="tag">{{ tech }}</span>
+            {% endfor %}
+        </div>
+
+        {% if projet.lien_projet %}
+        <h4 class="mt-lg">Lien du projet</h4>
+        <a href="{{ projet.lien_projet }}" target="_blank">{{ projet.lien_projet }}</a>
+        {% endif %}
+
+        {% if projet.lien_github %}
+        <h4 class="mt-lg">Code source</h4>
+        <a href="{{ projet.lien_github }}" target="_blank">{{ projet.lien_github }}</a>
+        {% endif %}
+    </div>
+
+    <div class="carte">
+        <h3>Décision</h3>
+        <p class="texte-secondaire mb-lg">Statut actuel :
+            <span class="tag {% if projet.statut == 'approuve' %}tag-succes{% elif projet.statut == 'refuse' %}tag-danger{% else %}tag-accent{% endif %}">
+                {{ projet.get_statut_display }}
+            </span>
+        </p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="formulaire-groupe">
+                <label for="id_statut">Nouveau statut</label>
+                {{ formulaire.statut }}
+            </div>
+            <button type="submit" class="btn btn-primaire">Mettre à jour</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

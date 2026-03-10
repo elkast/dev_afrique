@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titre %}DevAfrique — Apprenez le developpement, creez l'avenir{% endblock %}</title>
+    <meta name="description" content="{% block description %}Plateforme educative africaine de reference. Apprenez le developpement web et mobile avec des cours gratuits, des projets concrets et une communaute bienveillante.{% endblock %}">
+    {% load static %}
+    {% load humanize %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C5CE7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m18 16 4-4-4-4'/%3E%3Cpath d='m6 8-4 4 4 4'/%3E%3Cpath d='m14.5 4-5 16'/%3E%3C/svg%3E">
+    {% block css_extra %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-interieur">
+            <a href="{% url 'accueil' %}" class="navbar-logo">
+                <div class="logo-icone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                </div>
+                Dev<span>Afrique</span>
+            </a>
+
+            <ul class="navbar-liens" id="nav-liens">
+                <li><a href="{% url 'accueil' %}" class="{% if request.resolver_match.url_name == 'accueil' %}actif{% endif %}">Accueil</a></li>
+                <li><a href="{% url 'liste_parcours' %}" class="{% if 'parcours' in request.path %}actif{% endif %}">Parcours</a></li>
+                <li><a href="{% url 'liste_cours' %}" class="{% if request.resolver_match.url_name == 'liste_cours' %}actif{% endif %}">Cours</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'liste_projets' %}" class="{% if 'projets' in request.path %}actif{% endif %}">Projets</a></li>
+                <li><a href="{% url 'forum' %}" class="{% if 'forum' in request.path %}actif{% endif %}">Forum</a></li>
+                {% endif %}
+                <li><a href="{% url 'glossaire' %}" class="{% if 'glossaire' in request.path %}actif{% endif %}">Glossaire</a></li>
+            </ul>
+
+            <div class="navbar-actions">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profil' %}" class="btn btn-fantome">
+                        <img src="{{ user.get_avatar_display }}" alt="{{ user.username }}" class="avatar avatar-sm" style="border: none;">
+                        {{ user.username }}
+                    </a>
+                    {% if user.est_admin or user.est_moderateur %}
+                        <a href="{% url 'tableau_de_bord' %}" class="btn btn-sm btn-outline-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                            Admin
+                        </a>
+                    {% endif %}
+                    <a href="{% url 'deconnexion' %}" class="btn btn-sm btn-outline-light">Déconnexion</a>
+                {% else %}
+                    <a href="{% url 'connexion' %}" class="btn btn-sm btn-outline-light">Connexion</a>
+                    <a href="{% url 'inscription' %}" class="btn btn-sm btn-accent">S'inscrire</a>
+                {% endif %}
+            </div>
+
+            <button class="menu-burger" onclick="toggleMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message message-{{ message.tags }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{% if message.tags == 'success' %}<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/>{% elif message.tags == 'error' %}<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>{% else %}<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>{% endif %}</svg>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Contenu principal -->
+    <main>
+        {% block contenu %}{% endblock %}
+    </main>
+
+    {# Footer — conditional, hidden on admin/lesson pages via block footer #}
+    {% block footer %}
+    <footer class="footer">
+        <div class="conteneur">
+            <div class="footer-grille">
+                <div>
+                    <div class="footer-titre" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div class="logo-icone" style="width: 28px; height: 28px; background: linear-gradient(135deg, var(--couleur-primaire), var(--couleur-primaire-clair)); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                        </div>
+                        DevAfrique
+                    </div>
+                    <p style="font-size: var(--taille-sm); margin-top: var(--espace-md);">La plateforme educative de reference pour l'Afrique. Des formations de qualite, accessibles a tous, du collegien au professionnel.</p>
+                </div>
+                <div>
+                    <div class="footer-titre">Formations</div>
+                    <ul class="footer-liens">
+                        <li><a href="{% url 'liste_parcours' %}">Parcours complets</a></li>
+                        <li><a href="{% url 'liste_cours' %}">Tous les cours</a></li>
+                        <li><a href="{% url 'glossaire' %}">Glossaire</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-titre">Communaute</div>
+                    <ul class="footer-liens">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'liste_projets' %}">Projets</a></li>
+                        <li><a href="{% url 'forum' %}">Forum d'entraide</a></li>
+                        <li><a href="{% url 'soumettre_projet' %}">Soumettre un projet</a></li>
+                        {% else %}
+                        <li><a href="{% url 'connexion' %}">Connectez-vous pour voir les projets</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-titre">Compte</div>
+                    <ul class="footer-liens">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'profil' %}">Mon profil</a></li>
+                        <li><a href="{% url 'deconnexion' %}">Déconnexion</a></li>
+                        {% else %}
+                        <li><a href="{% url 'connexion' %}">Connexion</a></li>
+                        <li><a href="{% url 'inscription' %}">Inscription</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'a_propos' %}">À propos</a></li>
+                        <li><a href="{% url 'bibliographie' %}">Bibliographie</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-barre">
+                &copy; 2026 DevAfrique — Démocratiser le savoir technologique en Afrique
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+
+    {% block js_extra %}{% endblock %}
+    <script>
+        /* ─── Menu mobile ────────────────────────────────── */
+        function toggleMenu() {
+            var nav = document.getElementById('nav-liens');
+            nav.classList.toggle('ouvert');
+        }
+
+        /* ─── Copy code ──────────────────────────────────── */
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-copier')) {
+                var bloc = e.target.closest('.bloc-code');
+                var code = bloc.querySelector('pre').textContent;
+                navigator.clipboard.writeText(code).then(function() {
+                    e.target.textContent = 'Copié !';
+                    setTimeout(function() { e.target.textContent = 'Copier'; }, 2000);
+                });
+            }
+        });
+
+        /* ─── Auto-dismiss messages ──────────────────────── */
+        setTimeout(function() {
+            document.querySelectorAll('.message').forEach(function(msg) {
+                msg.style.transition = 'opacity 0.5s, transform 0.5s';
+                msg.style.opacity = '0';
+                msg.style.transform = 'translateY(-10px)';
+                setTimeout(function() { msg.remove(); }, 500);
+            });
+        }, 5000);
+
+        /* ─── Scroll reveal animations ───────────────────── */
+        function revealOnScroll() {
+            var reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(function(el) {
+                var windowHeight = window.innerHeight;
+                var elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 80) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        /* ─── Async data loading helper ──────────────────── */
+        function chargerAsync(url, cible, indicateur) {
+            var conteneur = document.querySelector(cible);
+            if (!conteneur) return;
+            if (indicateur) {
+                conteneur.innerHTML = '<div class="texte-centre texte-secondaire" style="padding: var(--espace-xl);"><div class="chargement-spinner"></div>Chargement...</div>';
+            }
+            fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function(r) {
+                    if (!r.ok) throw new Error('Erreur ' + r.status);
+                    return r.text();
+                })
+                .then(function(html) { conteneur.innerHTML = html; })
+                .catch(function(err) {
+                    conteneur.innerHTML = '<div class="texte-centre texte-secondaire" style="padding: var(--espace-xl);">Erreur de chargement. <button onclick="chargerAsync(\'' + url + '\', \'' + cible + '\', true)" class="btn btn-sm btn-secondaire">Réessayer</button></div>';
+                });
+        }
+    </script>
+</body>
+</html>

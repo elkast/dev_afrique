@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block titre %}{{ profil_utilisateur.username }} — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur" style="max-width: 800px;">
+
+        <!-- Header profil -->
+        <div class="profil-header">
+            <img src="{{ profil_utilisateur.get_avatar_display }}" alt="{{ profil_utilisateur.username }}" class="avatar avatar-xl">
+            <div class="profil-info" style="flex: 1;">
+                <h1 style="font-size: var(--taille-2xl); margin-bottom: 0.25rem;">
+                    {{ profil_utilisateur.get_full_name|default:profil_utilisateur.username }}
+                    <span class="xp-badge" style="font-size: var(--taille-xs); vertical-align: middle;">{{ profil_utilisateur.get_niveau_display_icon }} {{ profil_utilisateur.points_xp }} XP</span>
+                </h1>
+                <p style="opacity: 0.8; margin: 0;">@{{ profil_utilisateur.username }}
+                    {% if profil_utilisateur.pays %} · 📍 {{ profil_utilisateur.ville }}{% if profil_utilisateur.ville and profil_utilisateur.pays %}, {% endif %}{{ profil_utilisateur.pays }}{% endif %}
+                </p>
+                {% if profil_utilisateur.biographie %}
+                <p style="opacity: 0.9; margin-top: var(--espace-sm); max-width: 50ch;">{{ profil_utilisateur.biographie }}</p>
+                {% endif %}
+                <div class="profil-stats">
+                    <div class="profil-stat">
+                        <div class="profil-stat-nombre">{{ projets.count }}</div>
+                        <div class="profil-stat-label">Projets</div>
+                    </div>
+                    <div class="profil-stat">
+                        <div class="profil-stat-nombre">{{ certificats.count }}</div>
+                        <div class="profil-stat-label">Certificats</div>
+                    </div>
+                    <div class="profil-stat">
+                        <div class="profil-stat-nombre">{{ progressions.count }}</div>
+                        <div class="profil-stat-label">Leçons terminées</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificats -->
+        {% if certificats %}
+        <div class="carte mb-xl">
+            <h3>🏆 Certificats obtenus</h3>
+            <div style="margin-top: var(--espace-md);">
+                {% for cert in certificats %}
+                <div style="display: flex; align-items: center; gap: var(--espace-md); padding: var(--espace-sm) 0; border-bottom: 1px solid var(--bordure-clair);">
+                    <span style="font-size: 1.5rem;">{{ cert.parcours.icone }}</span>
+                    <div style="flex: 1;">
+                        <strong>{{ cert.parcours.titre }}</strong>
+                        <span class="texte-petit texte-secondaire"> — Obtenu le {{ cert.date_obtention|date:"d F Y" }}</span>
+                    </div>
+                    <span class="tag tag-or">Certifié</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Projets -->
+        {% if projets %}
+        <div class="carte mb-xl">
+            <h3>🚀 Projets publiés</h3>
+            <div class="grille grille-2" style="margin-top: var(--espace-md);">
+                {% for projet in projets %}
+                <a href="{% url 'detail_projet' slug=projet.slug %}" class="carte carte-plate" style="text-decoration: none; padding: var(--espace-lg);">
+                    <h4 class="carte-titre" style="font-size: var(--taille-base);">{{ projet.titre }}</h4>
+                    <p class="texte-secondaire texte-petit" style="margin-bottom: var(--espace-sm);">{{ projet.description|truncatewords:15 }}</p>
+                    <div class="projet-tags">
+                        {% for tech in projet.liste_technologies %}
+                        <span class="tag" style="font-size: 0.65rem;">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

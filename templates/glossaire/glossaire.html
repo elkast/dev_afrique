@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block titre %}Glossaire du développement — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur">
+        <div class="section-titre">
+            <h1>Glossaire du développement</h1>
+            <p>Tous les termes du développement web et mobile expliqués simplement. Fini le jargon incompréhensible.</p>
+        </div>
+
+        <!-- Recherche -->
+        <form method="get" action="{% url 'glossaire' %}" class="barre-recherche mb-xl">
+            <input type="text" name="q" value="{{ recherche }}" class="champ-formulaire" placeholder="Rechercher un terme...">
+            <button type="submit" class="btn btn-primaire">Chercher</button>
+        </form>
+
+        <!-- Alphabet -->
+        <div class="glossaire-alphabet">
+            <a href="{% url 'glossaire' %}" class="glossaire-lettre {% if not lettre_active %}actif{% endif %}">Tous</a>
+            {% for l in lettres %}
+            <a href="{% url 'glossaire' %}?lettre={{ l }}" class="glossaire-lettre {% if lettre_active == l %}actif{% endif %}">{{ l }}</a>
+            {% endfor %}
+        </div>
+
+        <!-- Filtres catégorie -->
+        <div style="display: flex; gap: var(--espace-sm); flex-wrap: wrap; justify-content: center; margin-bottom: var(--espace-xl);">
+            <a href="{% url 'glossaire' %}{% if lettre_active %}?lettre={{ lettre_active }}{% endif %}" class="btn {% if not categorie %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">Toutes</a>
+            {% for cat_val, cat_label in categories %}
+            <a href="{% url 'glossaire' %}?categorie={{ cat_val }}{% if lettre_active %}&lettre={{ lettre_active }}{% endif %}" class="btn {% if categorie == cat_val %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">{{ cat_label }}</a>
+            {% endfor %}
+        </div>
+
+        <!-- Termes -->
+        <div class="carte" style="padding: 0; overflow: hidden;">
+            {% for terme in termes %}
+            <a href="{% url 'glossaire_detail' slug=terme.slug %}" class="glossaire-terme" style="text-decoration: none; color: inherit;">
+                <div class="glossaire-terme-lettre">{{ terme.lettre }}</div>
+                <div style="flex: 1;">
+                    <div style="font-family: var(--police-titre); font-weight: 700; font-size: var(--taille-lg); margin-bottom: 0.25rem;">{{ terme.terme }}</div>
+                    <p class="texte-secondaire texte-petit" style="margin: 0;">{{ terme.definition|truncatewords:25 }}</p>
+                    <span class="tag mt-sm" style="font-size: 0.65rem;">{{ terme.get_categorie_display }}</span>
+                </div>
+            </a>
+            {% empty %}
+            <div class="etat-vide">
+                <div class="etat-vide-icone">📚</div>
+                <h3>Aucun terme trouvé</h3>
+                <p>Essayez une autre recherche ou une autre lettre.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

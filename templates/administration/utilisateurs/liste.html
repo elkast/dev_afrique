@@ -1,0 +1,64 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Utilisateurs — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div class="admin-header">
+    <h1>👥 Utilisateurs</h1>
+    <div style="display: flex; gap: var(--espace-sm);">
+        <a href="{% url 'admin_liste_utilisateurs' %}" class="btn {% if not role_filtre %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">Tous</a>
+        <a href="{% url 'admin_liste_utilisateurs' %}?role=apprenant" class="btn {% if role_filtre == 'apprenant' %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">Apprenants</a>
+        <a href="{% url 'admin_liste_utilisateurs' %}?role=formateur" class="btn {% if role_filtre == 'formateur' %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">Formateurs</a>
+        <a href="{% url 'admin_liste_utilisateurs' %}?role=moderateur" class="btn {% if role_filtre == 'moderateur' %}btn-primaire{% else %}btn-secondaire{% endif %} btn-sm">Modérateurs</a>
+    </div>
+</div>
+
+<table class="tableau">
+    <thead>
+        <tr><th>Utilisateur</th><th>Email</th><th>Rôle</th><th>XP</th><th>Inscription</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for u in utilisateurs_liste %}
+        <tr>
+            <td>
+                <div style="display: flex; align-items: center; gap: var(--espace-sm);">
+                    <img src="{{ u.get_avatar_display }}" alt="{{ u.username }}" class="avatar avatar-sm">
+                    <strong>{{ u.username }}</strong>
+                </div>
+            </td>
+            <td>{{ u.email }}</td>
+            <td>
+                <form method="post" action="{% url 'admin_modifier_role' pk=u.pk %}" style="display: inline;">
+                    {% csrf_token %}
+                    <select name="role" class="champ-formulaire" style="padding: 0.25rem 0.5rem; font-size: var(--taille-xs); width: auto;" onchange="this.form.submit()">
+                        {% for val, label in u.ROLE_CHOIX %}
+                        <option value="{{ val }}" {% if u.role == val %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </td>
+            <td><span class="xp-badge">{{ u.get_niveau_display_icon }} {{ u.points_xp }}</span></td>
+            <td>{{ u.date_joined|date:"d/m/Y" }}</td>
+            <td><a href="{% url 'profil_public' username=u.username %}" class="btn btn-sm btn-secondaire">Voir</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if utilisateurs_liste.has_other_pages %}
+<div class="pagination">
+    {% if utilisateurs_liste.has_previous %}
+    <a href="?page={{ utilisateurs_liste.previous_page_number }}{% if role_filtre %}&role={{ role_filtre }}{% endif %}">← Précédent</a>
+    {% endif %}
+    {% for num in utilisateurs_liste.paginator.page_range %}
+    {% if utilisateurs_liste.number == num %}
+    <span class="actif">{{ num }}</span>
+    {% else %}
+    <a href="?page={{ num }}{% if role_filtre %}&role={{ role_filtre }}{% endif %}">{{ num }}</a>
+    {% endif %}
+    {% endfor %}
+    {% if utilisateurs_liste.has_next %}
+    <a href="?page={{ utilisateurs_liste.next_page_number }}{% if role_filtre %}&role={{ role_filtre }}{% endif %}">Suivant →</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block titre %}{{ parcours.titre }} — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur">
+        <div class="fil-ariane">
+            <a href="{% url 'liste_parcours' %}">Parcours</a>
+            <span class="fil-ariane-separateur">/</span>
+            <span>{{ parcours.titre }}</span>
+        </div>
+
+        <div style="text-align: center; margin-bottom: var(--espace-2xl);">
+            <div class="carte-icone" style="width: 64px; height: 64px; margin: 0 auto var(--espace-md);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{% if parcours.type_parcours == 'web' %}<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>{% elif parcours.type_parcours == 'mobile' %}<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>{% else %}<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>{% endif %}</svg>
+            </div>
+            <h1>{{ parcours.titre }}</h1>
+            <span class="parcours-type parcours-type-{{ parcours.type_parcours }}">
+                {{ parcours.get_type_parcours_display }}
+            </span>
+            <p class="texte-secondaire" style="max-width: 60ch; margin: var(--espace-md) auto;">{{ parcours.description }}</p>
+        </div>
+
+        <h2 class="texte-centre mb-xl">Cours du parcours</h2>
+
+        <div class="grille grille-3">
+            {% for cours in cours_liste %}
+            <a href="{% url 'detail_cours' slug=cours.slug %}" class="carte cours-carte" style="text-decoration: none;">
+                <div class="cours-carte-header">
+                    <div class="carte-icone-inline">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="carte-titre" style="margin-bottom: 0;">{{ cours.titre }}</h4>
+                        <span class="texte-petit texte-secondaire">Etape {{ cours.ordre }}</span>
+                    </div>
+                </div>
+                <p class="texte-secondaire texte-petit">{{ cours.description|truncatewords:25 }}</p>
+                <div class="cours-meta">
+                    <span class="cours-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        {{ cours.nombre_lecons }} lecons
+                    </span>
+                    <span class="cours-niveau niveau-{{ cours.niveau }}">{{ cours.get_niveau_display }}</span>
+                    {% if cours.duree_totale %}
+                    <span class="cours-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {{ cours.duree_totale }} min
+                    </span>
+                    {% endif %}
+                </div>
+            </a>
+            {% empty %}
+            <div class="etat-vide" style="grid-column: 1 / -1;">
+                <div class="etat-vide-icone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <h3>Aucun cours pour le moment</h3>
+                <p>Les cours de ce parcours sont en cours de creation.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

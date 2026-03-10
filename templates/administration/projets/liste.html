@@ -1,0 +1,51 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Gestion des projets — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div class="admin-header">
+    <h1>Gestion des projets</h1>
+    <div style="display: flex; gap: var(--espace-sm);">
+        <a href="{% url 'admin_liste_projets' %}" class="btn btn-sm {% if not statut_filtre %}btn-primaire{% else %}btn-secondaire{% endif %}">Tous</a>
+        <a href="{% url 'admin_liste_projets' %}?statut=en_attente" class="btn btn-sm {% if statut_filtre == 'en_attente' %}btn-accent{% else %}btn-secondaire{% endif %}">En attente</a>
+        <a href="{% url 'admin_liste_projets' %}?statut=approuve" class="btn btn-sm {% if statut_filtre == 'approuve' %}btn-succes{% else %}btn-secondaire{% endif %}">Approuvés</a>
+        <a href="{% url 'admin_liste_projets' %}?statut=refuse" class="btn btn-sm {% if statut_filtre == 'refuse' %}btn-danger{% else %}btn-secondaire{% endif %}">Refusés</a>
+    </div>
+</div>
+
+<table class="tableau">
+    <thead>
+        <tr>
+            <th>Projet</th>
+            <th>Auteur</th>
+            <th>Technologies</th>
+            <th>Statut</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in projets_liste %}
+        <tr>
+            <td><strong>{{ p.titre }}</strong></td>
+            <td>{{ p.auteur.username }}</td>
+            <td>
+                {% for tech in p.liste_technologies %}
+                <span class="tag" style="margin: 1px;">{{ tech }}</span>
+                {% endfor %}
+            </td>
+            <td>
+                <span class="tag {% if p.statut == 'approuve' %}tag-succes{% elif p.statut == 'refuse' %}tag-danger{% else %}tag-accent{% endif %}">
+                    {{ p.get_statut_display }}
+                </span>
+            </td>
+            <td>{{ p.date_soumission|date:"d/m/Y" }}</td>
+            <td>
+                <a href="{% url 'admin_moderer_projet' pk=p.pk %}" class="btn btn-sm btn-primaire">Modérer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="texte-centre texte-secondaire" style="padding: var(--espace-xl);">Aucun projet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

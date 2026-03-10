@@ -1,0 +1,41 @@
+{% extends 'dmz/base_dmz.html' %}
+{% block titre %}Tentatives admin — DMZ — DevAfrique{% endblock %}
+
+{% block contenu_dmz %}
+<div class="admin-header">
+    <h1>🛡️ Tentatives d'accès admin</h1>
+</div>
+
+<div class="note-info mb-xl">
+    <strong>⚠️ Politique de sécurité :</strong> Après 3 tentatives échouées, l'adresse IP est automatiquement bloquée pendant 6 heures.
+</div>
+
+<div class="carte">
+    <table class="tableau">
+        <thead>
+            <tr><th>Statut</th><th>IP</th><th>Utilisateur tenté</th><th>User-Agent</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+            {% for t in tentatives %}
+            <tr>
+                <td>{% if t.reussie %}<span class="tag tag-succes">✅</span>{% else %}<span class="tag tag-danger">❌</span>{% endif %}</td>
+                <td><code>{{ t.adresse_ip }}</code></td>
+                <td><strong>{{ t.nom_utilisateur }}</strong></td>
+                <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ t.user_agent|truncatechars:50 }}</td>
+                <td>{{ t.date|date:"d/m/Y H:i:s" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="texte-centre texte-secondaire">Aucune tentative admin enregistrée.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if tentatives.has_other_pages %}
+<div class="pagination">
+    {% if tentatives.has_previous %}<a href="?page={{ tentatives.previous_page_number }}">← Précédent</a>{% endif %}
+    <span class="actif">{{ tentatives.number }} / {{ tentatives.paginator.num_pages }}</span>
+    {% if tentatives.has_next %}<a href="?page={{ tentatives.next_page_number }}">Suivant →</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

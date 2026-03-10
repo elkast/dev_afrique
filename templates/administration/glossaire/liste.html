@@ -1,0 +1,30 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Glossaire — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div class="admin-header">
+    <h1>📚 Glossaire</h1>
+    <a href="{% url 'admin_creer_terme' %}" class="btn btn-primaire">+ Ajouter un terme</a>
+</div>
+
+<table class="tableau">
+    <thead>
+        <tr><th>Terme</th><th>Catégorie</th><th>Lettre</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for terme in termes %}
+        <tr>
+            <td><strong>{{ terme.terme }}</strong></td>
+            <td><span class="tag">{{ terme.get_categorie_display }}</span></td>
+            <td>{{ terme.lettre }}</td>
+            <td class="tableau-actions">
+                <a href="{% url 'admin_modifier_terme' pk=terme.pk %}" class="btn btn-sm btn-secondaire">Modifier</a>
+                <a href="{% url 'admin_supprimer_terme' pk=terme.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="texte-centre texte-secondaire" style="padding: var(--espace-2xl);">Aucun terme dans le glossaire.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'dmz/base_dmz.html' %}
+{% block titre %}IPs bloquées — DMZ — DevAfrique{% endblock %}
+
+{% block contenu_dmz %}
+<div class="admin-header">
+    <h1>🚫 IPs bloquées</h1>
+</div>
+
+<div class="carte">
+    <table class="tableau">
+        <thead>
+            <tr><th>IP</th><th>Raison</th><th>Détails</th><th>Tentatives</th><th>Depuis</th><th>Expire</th><th>Actif</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for ip in ips %}
+            <tr>
+                <td><code>{{ ip.adresse_ip }}</code></td>
+                <td><span class="tag tag-danger">{{ ip.get_raison_display }}</span></td>
+                <td style="max-width: 250px;">{{ ip.details|truncatewords:10 }}</td>
+                <td>{{ ip.nombre_tentatives }}</td>
+                <td>{{ ip.date_blocage|date:"d/m/Y H:i" }}</td>
+                <td>{% if ip.date_expiration %}{{ ip.date_expiration|date:"d/m/Y H:i" }}{% else %}Permanent{% endif %}</td>
+                <td>{% if ip.est_actif %}<span class="tag tag-danger">Actif</span>{% else %}<span class="tag tag-succes">Inactif</span>{% endif %}</td>
+                <td>
+                    {% if ip.est_actif %}
+                    <form method="post" action="{% url 'dmz_debloquer_ip' pk=ip.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-secondaire">Débloquer</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8" class="texte-centre texte-secondaire">Aucune IP bloquée.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if ips.has_other_pages %}
+<div class="pagination">
+    {% if ips.has_previous %}<a href="?page={{ ips.previous_page_number }}">← Précédent</a>{% endif %}
+    <span class="actif">{{ ips.number }} / {{ ips.paginator.num_pages }}</span>
+    {% if ips.has_next %}<a href="?page={{ ips.next_page_number }}">Suivant →</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

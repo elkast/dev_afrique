@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block titre %}A propos — DevAfrique{% endblock %}
+
+{% block contenu %}
+<!-- Hero -->
+<section class="hero" style="padding: var(--espace-3xl) 0;">
+    <div class="hero-shapes">
+        <div class="hero-shape hero-shape-1"></div>
+        <div class="hero-shape hero-shape-2"></div>
+    </div>
+    <div class="conteneur" style="position: relative; z-index: 1; text-align: center;">
+        <div class="hero-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            Notre mission
+        </div>
+        <h1 style="font-size: var(--taille-4xl);">L'Afrique merite les <span>meilleures formations</span></h1>
+        <p style="margin: var(--espace-md) auto; max-width: 60ch; text-align: center;">Nous croyons que chaque Africain, du collegien au professionnel, doit pouvoir acceder a des formations de qualite en developpement web et mobile.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="conteneur" style="max-width: var(--largeur-contenu);">
+
+        <h2>Notre vision</h2>
+        <p><strong>DevAfrique</strong> est nee d'un constat simple : les formations de qualite en developpement sont souvent en anglais, payantes, ou inadaptees au contexte africain.</p>
+        <p>Notre objectif : devenir <strong>LA reference educative</strong> pour l'Afrique, plus accessible qu'OpenClassrooms, plus concrete que W3Schools, et surtout <strong>pensee pour les realites africaines</strong>.</p>
+
+        <h2 class="mt-xl">Notre philosophie</h2>
+        <div class="grille grille-2 mt-lg mb-xl">
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-violet">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 6 3 6 3s3 0 6-3v-5"/></svg>
+                </div>
+                <h4 class="carte-titre">Accessible a tous</h4>
+                <p class="texte-secondaire texte-petit">Meme un eleve de 3eme doit pouvoir comprendre. Nous expliquons chaque concept simplement.</p>
+            </div>
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-bleu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m10 8 4 4-4 4"/></svg>
+                </div>
+                <h4 class="carte-titre">Par le projet</h4>
+                <p class="texte-secondaire texte-petit">Pas de theorie inutile. Chaque lecon vous fait avancer vers un projet concret.</p>
+            </div>
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-vert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </div>
+                <h4 class="carte-titre">100% gratuit</h4>
+                <p class="texte-secondaire texte-petit">Toutes les formations de base sont gratuites. Toujours.</p>
+            </div>
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-orange">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <h4 class="carte-titre">Qualite verifiee</h4>
+                <p class="texte-secondaire texte-petit">La communaute signale les erreurs, les moderateurs garantissent la qualite du contenu.</p>
+            </div>
+        </div>
+
+        <h2>Ce que vous apprendrez</h2>
+        <ul class="feature-list">
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> <strong>Frontend</strong> : HTML, CSS, JavaScript, React, Tailwind CSS</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> <strong>Backend</strong> : Django, Flask, FastAPI</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> <strong>Mobile</strong> : React Native</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> <strong>Bases de donnees</strong> et API REST</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> <strong>Deploiement</strong> sur Render et Neon</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg> <strong>Intelligence Artificielle</strong> : integrer l'IA dans vos projets</li>
+        </ul>
+
+        <h2 class="mt-xl">Rejoignez la communaute</h2>
+        <p>DevAfrique n'est pas qu'une plateforme de cours. C'est une <strong>communaute d'entraide</strong> ou les apprenants partagent leurs projets, s'entraident sur le forum, et construisent ensemble l'avenir technologique de l'Afrique.</p>
+
+        <div class="texte-centre mt-xl">
+            <a href="{% url 'inscription' %}" class="btn btn-lg btn-accent">
+                Rejoindre DevAfrique
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

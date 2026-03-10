@@ -1,0 +1,45 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Gestion des parcours — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div class="admin-header">
+    <h1>Gestion des parcours</h1>
+    <a href="{% url 'admin_creer_parcours' %}" class="btn btn-primaire">+ Nouveau parcours</a>
+</div>
+
+<table class="tableau">
+    <thead>
+        <tr>
+            <th>Ordre</th>
+            <th>Titre</th>
+            <th>Type</th>
+            <th>Cours</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in parcours_liste %}
+        <tr>
+            <td>{{ p.ordre }}</td>
+            <td><strong>{{ p.icone }} {{ p.titre }}</strong></td>
+            <td><span class="tag">{{ p.get_type_parcours_display }}</span></td>
+            <td>{{ p.nombre_cours }}</td>
+            <td>
+                {% if p.est_publie %}
+                <span class="tag tag-succes">Publié</span>
+                {% else %}
+                <span class="tag tag-accent">Brouillon</span>
+                {% endif %}
+            </td>
+            <td class="tableau-actions">
+                <a href="{% url 'admin_modifier_parcours' pk=p.pk %}" class="btn btn-sm btn-secondaire">Modifier</a>
+                <a href="{% url 'admin_supprimer_parcours' pk=p.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="texte-centre texte-secondaire" style="padding: var(--espace-xl);">Aucun parcours créé.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

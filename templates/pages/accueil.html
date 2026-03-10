@@ -1,0 +1,314 @@
+{% extends 'base.html' %}
+{% block titre %}DevAfrique — La plateforme educative de reference pour l'Afrique{% endblock %}
+
+{% block contenu %}
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-shapes">
+        <div class="hero-shape hero-shape-1"></div>
+        <div class="hero-shape hero-shape-2"></div>
+        <div class="hero-shape hero-shape-3"></div>
+    </div>
+    <div class="hero-contenu">
+        <div>
+            <div class="hero-badge">
+                <span class="hero-badge-new">NOUVEAU</span>
+                Les inscriptions sont ouvertes
+            </div>
+            <h1>Maitrisez le <span>Developpement</span> Web et Mobile</h1>
+            <p>La seule plateforme dont vous avez besoin pour devenir developpeur. Des cours structures, des projets concrets, une communaute active.</p>
+            <div class="hero-actions">
+                <a href="{% url 'inscription' %}" class="btn btn-lg btn-accent">
+                    Commencer gratuitement
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+                <a href="{% url 'liste_parcours' %}" class="btn btn-lg btn-outline-light">Voir le programme</a>
+            </div>
+            <div class="hero-meta">
+                <span class="hero-meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    ONLINE
+                </span>
+                <span class="hero-meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    HANDS-ON
+                </span>
+                <span class="hero-meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><path d="M7 15h0M2 9h20"/></svg>
+                    CERTIFICAT
+                </span>
+            </div>
+        </div>
+        <div class="hero-visuel">
+            <div class="hero-img-col">
+                <div class="hero-img hero-img-large">
+                    <img src="https://images.pexels.com/photos/1181672/pexels-photo-1181672.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Developpeur web - Photo par Christina Morillo">
+                </div>
+                <div class="hero-img hero-img-small">
+                    <img src="https://images.pexels.com/photos/33920044/pexels-photo-33920044.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Etudiants apprenant le code - Photo par Zeal Creative Studios">
+                </div>
+            </div>
+            <div class="hero-img-col">
+                <div class="hero-img hero-img-small">
+                    <img src="https://images.unsplash.com/photo-1573495783353-1e6e1420b3c1?w=600&auto=format" alt="Developpeur au travail - Photo par Christina wocintechchat">
+                </div>
+                <div class="hero-img hero-img-large">
+                    <img src="https://images.pexels.com/photos/5940710/pexels-photo-5940710.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Etudiant concentre - Photo par Kampus Production">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-bande">
+    <div class="conteneur">
+        <div class="stats-grille">
+            <div class="stat-item">
+                <span class="stat-nombre">{{ parcours_liste.count|default:"6" }}+</span>
+                <span class="stat-label">Parcours complets</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-nombre">{{ cours_recents.count|default:"25" }}+</span>
+                <span class="stat-label">Cours disponibles</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-nombre">100%</span>
+                <span class="stat-label">Gratuit</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-nombre">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </span>
+                <span class="stat-label">Pense pour l'Afrique</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Two-column: text + image -->
+<section class="section">
+    <div class="conteneur">
+        <div class="section-split reveal">
+            <div>
+                <h2 style="text-align: left;">La seule formation dont vous avez besoin pour rejoindre les meilleurs developpeurs</h2>
+                <div class="hero-actions" style="margin-top: var(--espace-lg);">
+                    <a href="{% url 'inscription' %}" class="btn btn-accent">
+                        Commencer
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                    <a href="{% url 'liste_parcours' %}" class="btn btn-secondaire">Voir le programme</a>
+                </div>
+                <ul class="feature-list">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        Apprenez les bases du design et du developpement d'interfaces fonctionnelles.
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        Construisez des projets concrets avec Django, React et React Native.
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        Developpez des competences pour le marche du travail africain et international.
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        Obtenez des retours d'experts pour affiner votre travail.
+                    </li>
+                </ul>
+            </div>
+            <div class="section-split-img">
+                <img src="https://images.pexels.com/photos/3860811/pexels-photo-3860811.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Equipe de developpeurs africains - Photo par Andrea Piacquadio">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features row -->
+<section class="section section-alternee">
+    <div class="conteneur">
+        <div class="features-row reveal">
+            <div class="carte feature-card">
+                <div class="feature-card-icon feature-card-icon-violet">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <h4>Apprentissage en ligne</h4>
+                <p>Des sessions interactives en temps reel, menees par des experts, pour une comprehension approfondie et des retours instantanes.</p>
+            </div>
+            <div class="carte feature-card">
+                <div class="feature-card-icon feature-card-icon-blue">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                </div>
+                <h4>Projets pratiques</h4>
+                <p>Appliquez vos connaissances a des scenarios reels avec des exercices conçus pour ameliorer l'apprentissage par la pratique.</p>
+            </div>
+            <div class="carte feature-card">
+                <div class="feature-card-icon feature-card-icon-green">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h4>Mentorat dedie</h4>
+                <p>Recevez des conseils personnalises et un soutien de mentors experimentes pour vous aider a atteindre vos objectifs d'apprentissage.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Parcours -->
+<section class="section">
+    <div class="conteneur">
+        <div class="section-titre reveal">
+            <h2>Choisissez votre parcours</h2>
+            <p>Des chemins clairs pour devenir developpeur. Chaque parcours vous guide etape par etape, du premier fichier au deploiement en production.</p>
+        </div>
+        <div class="grille grille-2 reveal">
+            {% for parcours in parcours_liste %}
+            <a href="{% url 'detail_parcours' slug=parcours.slug %}" class="carte parcours-carte" style="text-decoration: none;">
+                <div class="carte-icone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{% if parcours.type_parcours == 'web' %}<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>{% elif parcours.type_parcours == 'mobile' %}<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>{% elif parcours.type_parcours == 'data' %}<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>{% elif parcours.type_parcours == 'devops' %}<rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/>{% elif parcours.type_parcours == 'design' %}<circle cx="13.5" cy="6.5" r="2.5"/><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"/>{% else %}<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>{% endif %}</svg>
+                </div>
+                <span class="parcours-type parcours-type-{{ parcours.type_parcours }}">
+                    {{ parcours.get_type_parcours_display }}
+                </span>
+                <h3 class="carte-titre">{{ parcours.titre }}</h3>
+                <p class="texte-secondaire">{{ parcours.description }}</p>
+                <div class="cours-meta">
+                    <span class="cours-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        {{ parcours.nombre_cours }} cours
+                    </span>
+                    <span class="cours-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                        Projet final inclus
+                    </span>
+                </div>
+            </a>
+            {% empty %}
+            <a href="#" class="carte parcours-carte" style="text-decoration: none;">
+                <div class="carte-icone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </div>
+                <span class="parcours-type parcours-type-web">Developpement Web</span>
+                <h3 class="carte-titre">Parcours Web Complet</h3>
+                <p class="texte-secondaire">HTML, CSS, JavaScript, React, Tailwind, Django, Flask, FastAPI, deploiement.</p>
+            </a>
+            <a href="#" class="carte parcours-carte" style="text-decoration: none;">
+                <div class="carte-icone" style="background: var(--couleur-info-clair); color: var(--couleur-info);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                </div>
+                <span class="parcours-type parcours-type-mobile">Developpement Mobile</span>
+                <h3 class="carte-titre">Parcours Mobile Complet</h3>
+                <p class="texte-secondaire">JavaScript essentiel, React, React Native, architecture frontend/backend.</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Features detail -->
+<section class="section section-alternee">
+    <div class="conteneur">
+        <div class="section-titre reveal">
+            <h2>Tout pour reussir</h2>
+            <p>Pas juste des cours. Une plateforme complete avec tout ce dont un futur developpeur a besoin.</p>
+        </div>
+        <div class="grille grille-3 reveal">
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-violet">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <h4 class="carte-titre">Cours structures</h4>
+                <p class="texte-secondaire texte-petit">Des explications claires avec exemples de code copiables. Du debutant absolu a l'expert.</p>
+            </div>
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-orange">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                </div>
+                <h4 class="carte-titre">Projets concrets</h4>
+                <p class="texte-secondaire texte-petit">Construisez de vrais projets et partagez-les avec la communaute. Likes et commentaires inclus.</p>
+            </div>
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-bleu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                </div>
+                <h4 class="carte-titre">Forum d'entraide</h4>
+                <p class="texte-secondaire texte-petit">Posez vos questions, aidez les autres. La communaute africaine s'entraide ici.</p>
+            </div>
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-vert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                </div>
+                <h4 class="carte-titre">Glossaire complet</h4>
+                <p class="texte-secondaire texte-petit">Tous les termes du developpement expliques simplement. Fini le jargon incomprehensible.</p>
+            </div>
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-jaune">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                </div>
+                <h4 class="carte-titre">Certificats</h4>
+                <p class="texte-secondaire texte-petit">Terminez un parcours, obtenez un certificat. Montrez vos competences aux recruteurs.</p>
+            </div>
+            <div class="carte fonctionnalite-carte">
+                <div class="fonctionnalite-icone fonctionnalite-icone-violet">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <h4 class="carte-titre">Contenu verifie</h4>
+                <p class="texte-secondaire texte-petit">La communaute signale les fausses informations. Les moderateurs garantissent la qualite.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cours recents -->
+{% if cours_recents %}
+<section class="section">
+    <div class="conteneur">
+        <div class="section-titre reveal">
+            <h2>Cours disponibles</h2>
+            <p>Commencez par n'importe quel cours ou suivez un parcours complet.</p>
+        </div>
+        <div class="grille grille-3 reveal">
+            {% for cours in cours_recents %}
+            <a href="{% url 'detail_cours' slug=cours.slug %}" class="carte cours-carte" style="text-decoration: none;">
+                <div class="cours-carte-header">
+                    <div class="carte-icone-inline">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="carte-titre" style="margin-bottom: 0;">{{ cours.titre }}</h4>
+                        <span class="texte-petit texte-secondaire">{{ cours.parcours.titre }}</span>
+                    </div>
+                </div>
+                <p class="texte-secondaire texte-petit">{{ cours.description|truncatewords:20 }}</p>
+                <div class="cours-meta">
+                    <span class="cours-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        {{ cours.nombre_lecons }} lecons
+                    </span>
+                    <span class="cours-niveau niveau-{{ cours.niveau }}">{{ cours.get_niveau_display }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="texte-centre mt-xl">
+            <a href="{% url 'liste_cours' %}" class="btn btn-primaire btn-lg">
+                Voir tous les cours
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Final -->
+<section class="cta-section">
+    <div class="conteneur" style="position: relative; z-index: 1;">
+        <h2 style="font-size: var(--taille-3xl);">L'Afrique merite les meilleures formations</h2>
+        <p>Rejoignez des milliers d'apprenants et commencez a construire des projets concrets des aujourd'hui. C'est gratuit, c'est en français, c'est pour vous.</p>
+        <div class="hero-actions" style="justify-content: center; margin-top: var(--espace-xl);">
+            <a href="{% url 'inscription' %}" class="btn btn-lg btn-accent">Creer un compte gratuit</a>
+            <a href="{% url 'liste_parcours' %}" class="btn btn-lg btn-outline-light">Explorer les parcours</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

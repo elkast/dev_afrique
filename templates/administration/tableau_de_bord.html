@@ -1,0 +1,90 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Tableau de bord — Administration DevAfrique{% endblock %}
+
+{% block contenu_admin %}
+<h1>Tableau de bord</h1>
+
+<div class="stats-admin">
+    <div class="stat-carte">
+        <span class="stat-carte-nombre">{{ stats.total_parcours }}</span>
+        <span class="stat-carte-label">Parcours</span>
+    </div>
+    <div class="stat-carte">
+        <span class="stat-carte-nombre">{{ stats.total_cours }}</span>
+        <span class="stat-carte-label">Cours</span>
+    </div>
+    <div class="stat-carte">
+        <span class="stat-carte-nombre">{{ stats.total_lecons }}</span>
+        <span class="stat-carte-label">Leçons</span>
+    </div>
+    <div class="stat-carte">
+        <span class="stat-carte-nombre">{{ stats.total_utilisateurs }}</span>
+        <span class="stat-carte-label">Utilisateurs</span>
+    </div>
+    <div class="stat-carte" {% if stats.projets_en_attente > 0 %}style="border-color: var(--couleur-accent);"{% endif %}>
+        <span class="stat-carte-nombre" {% if stats.projets_en_attente > 0 %}style="color: var(--couleur-accent);"{% endif %}>{{ stats.projets_en_attente }}</span>
+        <span class="stat-carte-label">Projets en attente</span>
+    </div>
+    <div class="stat-carte" {% if stats.signalements_en_attente > 0 %}style="border-color: var(--couleur-danger);"{% endif %}>
+        <span class="stat-carte-nombre" {% if stats.signalements_en_attente > 0 %}style="color: var(--couleur-danger);"{% endif %}>{{ stats.signalements_en_attente }}</span>
+        <span class="stat-carte-label">Signalements</span>
+    </div>
+    <div class="stat-carte">
+        <span class="stat-carte-nombre">{{ stats.total_sujets_forum }}</span>
+        <span class="stat-carte-label">Sujets forum</span>
+    </div>
+    <div class="stat-carte">
+        <span class="stat-carte-nombre">{{ stats.total_termes_glossaire }}</span>
+        <span class="stat-carte-label">Termes glossaire</span>
+    </div>
+</div>
+
+{% if projets_recents %}
+<div class="carte mb-xl">
+    <h3>🚀 Projets en attente de modération</h3>
+    <table class="tableau" style="margin-top: var(--espace-md);">
+        <thead>
+            <tr><th>Projet</th><th>Auteur</th><th>Date</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for projet in projets_recents %}
+            <tr>
+                <td><strong>{{ projet.titre }}</strong></td>
+                <td>{{ projet.auteur.username }}</td>
+                <td>{{ projet.date_soumission|date:"d/m/Y" }}</td>
+                <td><a href="{% url 'admin_moderer_projet' pk=projet.pk %}" class="btn btn-sm btn-primaire">Modérer</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if signalements_recents %}
+<div class="carte">
+    <h3>🚩 Signalements récents</h3>
+    <table class="tableau" style="margin-top: var(--espace-md);">
+        <thead>
+            <tr><th>Type</th><th>Raison</th><th>Par</th><th>Date</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for sig in signalements_recents %}
+            <tr>
+                <td><span class="tag">{{ sig.get_type_contenu_display }}</span></td>
+                <td>{{ sig.get_raison_display }}</td>
+                <td>{{ sig.signaleur.username }}</td>
+                <td>{{ sig.date_creation|date:"d/m/Y" }}</td>
+                <td>
+                    <form method="post" action="{% url 'admin_traiter_signalement' pk=sig.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" name="action" value="traiter" class="btn btn-sm btn-primaire">Traiter</button>
+                        <button type="submit" name="action" value="ignorer" class="btn btn-sm btn-secondaire">Ignorer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block titre %}{{ cours.titre }} — DevAfrique{% endblock %}
+
+{% block contenu %}
+<section class="section">
+    <div class="conteneur" style="max-width: 800px;">
+        <div class="fil-ariane">
+            <a href="{% url 'liste_parcours' %}">Parcours</a>
+            <span class="fil-ariane-separateur">/</span>
+            <a href="{% url 'detail_parcours' slug=cours.parcours.slug %}">{{ cours.parcours.titre }}</a>
+            <span class="fil-ariane-separateur">/</span>
+            <span>{{ cours.titre }}</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: var(--espace-lg); margin-bottom: var(--espace-xl);">
+            <div class="carte-icone" style="width: 56px; height: 56px; flex-shrink: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div>
+                <h1 style="margin-bottom: var(--espace-xs);">{{ cours.titre }}</h1>
+                <p class="texte-secondaire" style="margin: 0;">{{ cours.description }}</p>
+                <div class="cours-meta" style="margin-top: var(--espace-sm);">
+                    <span class="cours-niveau niveau-{{ cours.niveau }}">{{ cours.get_niveau_display }}</span>
+                    <span class="cours-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        {{ lecons.count }} lecons
+                    </span>
+                    {% if cours.duree_totale %}
+                    <span class="cours-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {{ cours.duree_totale }} min
+                    </span>
+                    {% endif %}
+                    {% if cours.auteur %}
+                    <span class="cours-meta-item">Par {{ cours.auteur.username }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <h2>Lecons du cours</h2>
+        <p class="texte-secondaire">{{ lecons.count }} lecons — Suivez-les dans l'ordre pour une progression optimale.</p>
+
+        <div style="margin-top: var(--espace-lg);">
+            {% for lecon in lecons %}
+            <a href="{% url 'lecon' cours_slug=cours.slug lecon_slug=lecon.slug %}" class="carte" style="display: flex; align-items: center; gap: var(--espace-md); margin-bottom: var(--espace-sm); text-decoration: none; padding: var(--espace-md) var(--espace-lg);">
+                <span style="width: 32px; height: 32px; border-radius: var(--rayon-rond); background: var(--couleur-primaire-tres-clair); color: var(--couleur-primaire); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--taille-sm); flex-shrink: 0; font-family: var(--police-titre);">{{ lecon.ordre }}</span>
+                <span style="font-weight: 500; color: var(--texte-principal); flex: 1;">{{ lecon.titre }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--texte-leger);"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+            {% empty %}
+            <div class="etat-vide">
+                <div class="etat-vide-icone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <h3>Aucune lecon pour le moment</h3>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if lecons %}
+        <div class="texte-centre mt-xl">
+            {% with premiere=cours.premiere_lecon %}
+            {% if premiere %}
+            <a href="{% url 'lecon' cours_slug=cours.slug lecon_slug=premiere.slug %}" class="btn btn-primaire btn-lg">
+                Commencer le cours
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            {% endif %}
+            {% endwith %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

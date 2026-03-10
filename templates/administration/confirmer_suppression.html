@@ -1,0 +1,22 @@
+{% extends 'administration/base_admin.html' %}
+{% block titre %}Confirmer la suppression — Administration{% endblock %}
+
+{% block contenu_admin %}
+<div style="max-width: 500px;">
+    <h1>Confirmer la suppression</h1>
+
+    <div class="carte" style="border-color: var(--couleur-danger);">
+        <p>Êtes-vous sûr de vouloir supprimer ce {{ type }} ?</p>
+        <p style="margin-top: var(--espace-md);"><strong>{{ objet }}</strong></p>
+        <p class="texte-secondaire texte-petit">Cette action est irréversible.</p>
+
+        <form method="post" style="margin-top: var(--espace-xl);">
+            {% csrf_token %}
+            <div style="display: flex; gap: var(--espace-md);">
+                <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+                <a href="{% url retour %}" class="btn btn-secondaire">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
