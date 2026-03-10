@@ -71,16 +71,28 @@ WSGI_APPLICATION = 'siteweb.wsgi.application'
 
 # ─── DATABASE ────────────────────────────────────────────────
 DATABASE_URL = os.environ.get('DATABASE_URL', '').strip()
+# Nettoyer channel_binding qui cause des erreurs avec dj-database-url
+if 'channel_binding=' in DATABASE_URL:
+    import re
+    DATABASE_URL = re.sub(r'[&?]channel_binding=[^&]+', '', DATABASE_URL)
+
 # Vérifier que DATABASE_URL a un schéma valide
 VALID_SCHEMES = ('postgres://', 'postgresql://', 'sqlite://', 'mysql://', 'mysql2://')
+
+DATABASES = {}
 if DATABASE_URL and any(DATABASE_URL.startswith(scheme) for scheme in VALID_SCHEMES):
+    # Configuration PostgreSQL avec options SSL pour Neon
     DATABASES = {
-        'default': dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=600,
-        )
+        'default': {
+            **dj_database_url.parse(DATABASE_URL, conn_max_age=0),  # conn_max_age=0 pour Neon serverless
+            'OPTIONS': {
+                'sslmode': 'require',
+                'connect_timeout': 10,
+            }
+        }
     }
 else:
+    # Fallback SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -134,16 +146,25 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
-    SECURE_SSL_REDIRECT = True
+    # Désactivé sur Render - le proxy gère déjà HTTPS
+    SECURE_SSL_REDIRECT = False
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    # Cookies sécurisés mais avec domaine flexible pour Render
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_DOMAIN = None  # Permet les sous-domaines Render
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # CSRF trusted origins avec fallback Render
     CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
+    # Toujours inclure l'hôte Render
+    if 'https://dev-afrique.onrender.com' not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append('https://dev-afrique.onrender.com')
 else:
     X_FRAME_OPTIONS = 'SAMEORIGIN'
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
 
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
