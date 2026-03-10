@@ -17,20 +17,8 @@ echo "==> Running migrations..."
 python manage.py migrate
 
 echo ""
-echo "==> Loading initial data..."
-python manage.py shell < donnees_initiales.py || echo "Warning: donnees_initiales.py had issues"
-
-echo ""
-echo "==> Loading lessons data..."
-python manage.py shell < donnees_lecons.py || echo "Warning: donnees_lecons.py had issues"
-
-echo ""
-echo "==> Creating superuser..."
-python manage.py creer_superuser || echo "Warning: superuser creation had issues"
-
-echo ""
-echo "==> Verifying deployment..."
-python manage.py verifier_deploiement || echo "Warning: verification had issues"
+echo "==> Initializing all data..."
+python manage.py init_render
 
 echo ""
 echo "=========================================="
