@@ -67,11 +67,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'siteweb.wsgi.application'
 
 # ─── DATABASE ────────────────────────────────────────────────
-DATABASE_URL = os.environ.get('DATABASE_URL')
-if DATABASE_URL:
+DATABASE_URL = os.environ.get('DATABASE_URL', '').strip()
+# Vérifier que DATABASE_URL a un schéma valide
+VALID_SCHEMES = ('postgres://', 'postgresql://', 'sqlite://', 'mysql://', 'mysql2://')
+if DATABASE_URL and any(DATABASE_URL.startswith(scheme) for scheme in VALID_SCHEMES):
     DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
+        'default': dj_database_url.parse(
+            DATABASE_URL,
             conn_max_age=600,
         )
     }
