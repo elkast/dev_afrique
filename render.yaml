@@ -16,5 +16,11 @@ services:
         value: "postgresql://neondb_owner:npg_QWCGJNnPr4Y6@ep-icy-sun-ah25tfea-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require"
       - key: CSRF_TRUSTED_ORIGINS
         value: "https://dev-afrique.onrender.com"
+      - key: ADMIN_USERNAME
+        value: "admin"
+      - key: ADMIN_PASSWORD
+        value: "DevAfrique2026!"
+      - key: ADMIN_EMAIL
+        value: "admin@devafrique.com"
       - key: PYTHON_VERSION
         value: "3.12.0"
